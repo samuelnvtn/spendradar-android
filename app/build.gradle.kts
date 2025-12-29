@@ -73,4 +73,15 @@ dependencies {
     implementation(libs.hilt.compose)
     ksp(libs.hilt.compiler.ksp)
 
+    implementation(libs.datastore.core)
+    implementation(libs.datastore.preferences)
+
+    // Splashscreen
+    implementation(libs.splashscreen)
+
+    // Appintro
+    implementation(libs.appintro)
+
+    // Appcompat kvuli appintro
+    implementation(libs.appcompat)
 }
