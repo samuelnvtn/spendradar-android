@@ -1,19 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Spend Radar</string>
-    <string name="cannot_be_empty">Cannot be empty</string>
-    <string name="clear">Clear</string>
-    <string name="cancel">Cancel</string>
-    <string name="select">Select</string>
-    <string name="date">Date</string>
+    <string name="app_name">SpendRadar</string>
     <string name="welcome_to">Welcome to </string>
-    <string name="intro_text_1">This is the best app for any todo enthusiast.</string>
-    <string name="intro_text_2">The app is written using Compose. Enjoy!!!!!!!</string>
-    <string name="compose">Jetpack Compose</string>
+    <string name="intro_text_1">Track your expenses without the hassle. Snap a receipt and SpendRadar handles the rest.</string>
+    <string name="intro_text_2">Every purchase leaves a trace. SpendRadar maps your spending.</string>
+    <string name="intro_text_3">You spend. We AI-nalyze. SpendRadar shows you where your money goes.</string>
+    <string name="intro2">Map your spendings</string>
+    <string name="intro3">AI-first</string>
+    <string name="skip">Skip</string>
     <string name="continue_to_app">Continue</string>
-    <string name="task_text">Task text</string>
-    <string name="map">Map</string>
-    <string name="save_location">Save location</string>
-    <string name="marker_help">Hold your finger on Marker to move it</string>
-    <string name="location">Location</string>
+
 </resources>

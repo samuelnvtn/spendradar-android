@@ -34,29 +34,42 @@ class AppIntroActivity : AppIntro() {
             AppIntroFragment.newInstance(
                 title = getString(R.string.welcome_to) + " " + getString(R.string.app_name),
                 description = getString(R.string.intro_text_1),
-                titleColor = ContextCompat.getColor(this, R.color.textColor),
-                descriptionColor = ContextCompat.getColor(this, R.color.textColor),
-                imageDrawable = R.drawable.ic_intro_first
+                titleColor = ContextCompat.getColor(this, R.color.white),
+                descriptionColor = ContextCompat.getColor(this, R.color.white),
+                imageDrawable = R.drawable.undraw_receipt1,
+                backgroundDrawable = R.drawable.gradient)
+        )
+        addSlide(
+            AppIntroFragment.newInstance(
+                title = getString(R.string.intro2),
+                description = getString(R.string.intro_text_2),
+                titleColor = ContextCompat.getColor(this, R.color.white),
+                descriptionColor = ContextCompat.getColor(this, R.color.white),
+                imageDrawable = R.drawable.undraw_location,
+                backgroundDrawable = R.drawable.gradient
             )
         )
         addSlide(
             AppIntroFragment.newInstance(
-                title = getString(R.string.compose),
-                description = getString(R.string.intro_text_2),
-                titleColor = ContextCompat.getColor(this, R.color.textColor),
-                descriptionColor = ContextCompat.getColor(this, R.color.textColor),
-                imageDrawable = R.drawable.ic_intro_second
+                title = getString(R.string.intro3),
+                description = getString(R.string.intro_text_3),
+                titleColor = ContextCompat.getColor(this, R.color.white),
+                descriptionColor = ContextCompat.getColor(this, R.color.white),
+                imageDrawable = R.drawable.undraw_ai3,
+                backgroundDrawable = R.drawable.gradient
             )
         )
 
-        showSeparator(true)
-        setSeparatorColor(ContextCompat.getColor(this, R.color.textColor))
-        setColorDoneText(ContextCompat.getColor(this, R.color.textColor))
+        showSeparator(false)
+        showStatusBar(false)
+        setImmersiveMode()
+        setColorDoneText(ContextCompat.getColor(this, R.color.white))
         setDoneText(getString(R.string.continue_to_app))
+        setSkipText(getString(R.string.skip))
         setIndicatorColor(
-            ContextCompat.getColor(this, R.color.textColor),
+            ContextCompat.getColor(this, R.color.white),
             ContextCompat.getColor(this, android.R.color.darker_gray))
-        setNextArrowColor(ContextCompat.getColor(this, R.color.textColor))
+        setNextArrowColor(ContextCompat.getColor(this, R.color.white))
     }
 
     override fun onSkipPressed(currentFragment: Fragment?) {
