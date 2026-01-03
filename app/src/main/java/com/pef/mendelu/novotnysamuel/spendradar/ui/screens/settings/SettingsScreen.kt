@@ -136,12 +136,9 @@ fun SettingsScreenContent(
                                     modifier = Modifier.fillMaxWidth()) },
                                 onClick = {
                                     viewModel.setLanguage(code)
-                                    updateLocale(
-                                        context,
-                                        code
-                                    )
+                                    val appLocales = LocaleListCompat.forLanguageTags(code)
+                                    AppCompatDelegate.setApplicationLocales(appLocales)
                                     expanded = false
-                                    activity?.recreate()
                                 }
                             )
                         }
