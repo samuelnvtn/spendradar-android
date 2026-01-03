@@ -15,7 +15,7 @@ import javax.inject.Inject
 class SettingsViewModel @Inject constructor(private val repository: IDataStoreRepository) : ViewModel(){
 
     val language: StateFlow<String?> = repository.getLanguage()
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), initialValue = "")
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), "en")
 
 
     fun setLanguage(language: String) {

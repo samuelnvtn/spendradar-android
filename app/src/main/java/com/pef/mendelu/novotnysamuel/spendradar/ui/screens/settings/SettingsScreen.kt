@@ -75,8 +75,14 @@ fun SettingsScreen(
 }
 
 fun updateLocale(context: Context, languageCode: String) {
-    val appLocales = LocaleListCompat.forLanguageTags(languageCode)
-    AppCompatDelegate.setApplicationLocales(appLocales)
+    val locale = Locale(languageCode)
+    Locale.setDefault(locale)
+
+    val resources = context.resources
+    val config = resources.configuration
+    config.setLocale(locale)
+
+    resources.updateConfiguration(config, resources.displayMetrics)
 }
 
 @Composable
@@ -136,9 +142,12 @@ fun SettingsScreenContent(
                                     modifier = Modifier.fillMaxWidth()) },
                                 onClick = {
                                     viewModel.setLanguage(code)
-                                    val appLocales = LocaleListCompat.forLanguageTags(code)
-                                    AppCompatDelegate.setApplicationLocales(appLocales)
+                                    updateLocale(
+                                        context,
+                                        code
+                                    )
                                     expanded = false
+                                    activity?.recreate()
                                 }
                             )
                         }
