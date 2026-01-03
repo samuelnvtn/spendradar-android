@@ -3,6 +3,7 @@ package com.pef.mendelu.novotnysamuel.spendradar.datastore
 import android.content.Context
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.first
 
 class DataStoreRepositoryImpl(private val context: Context) : IDataStoreRepository {
@@ -25,5 +26,11 @@ class DataStoreRepositoryImpl(private val context: Context) : IDataStoreReposito
             e.printStackTrace()
             true
         }
+    }
+
+    override fun getLanguage(): Flow<String> = context.languageFlow
+
+    override suspend fun setLanguage(language: String) {
+        context.setLanguage(language)
     }
 }
