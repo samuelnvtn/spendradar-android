@@ -84,4 +84,7 @@ dependencies {
 
     // Appcompat kvuli appintro
     implementation(libs.appcompat)
+
+    implementation(libs.accompanist.permissions)
+
 }
