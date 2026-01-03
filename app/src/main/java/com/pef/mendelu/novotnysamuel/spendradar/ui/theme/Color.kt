@@ -2,6 +2,19 @@ package com.pef.mendelu.novotnysamuel.spendradar.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
+val barColor = Color(0xFF000000)
+val textColor = Color(0xFFFFFFFF)
+val barButton = Color(0xFF156739)
+
+val backgroundColor = Color(0xFF000000)
+
+//12251A
+
+val lightButton = Color(0xFF156739)
+
+
+val accentColor = Color(0xFF11EB6E)
+
 val Purple80 = Color(0xFFD0BCFF)
 val PurpleGrey80 = Color(0xFFCCC2DC)
 val Pink80 = Color(0xFFEFB8C8)

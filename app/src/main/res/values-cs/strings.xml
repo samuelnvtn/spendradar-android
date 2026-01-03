@@ -7,9 +7,16 @@
     <string name="compose">Jetpack Compose</string>
     <string name="skip">Přeskočit</string>
     <string name="continue_to_app">Pokračovat</string>
-    <string name="task_text">Task text</string>
-    <string name="map">Map</string>
-    <string name="save_location">Save location</string>
-    <string name="marker_help">Hold your finger on Marker to move it</string>
-    <string name="location">Location</string>
+    <string name="list">Přehled</string>
+    <string name="receipts">Přehled</string>
+    <string name="emptylist">Je tu nějak prázdno. Začni oskenováním účtenky.</string>
+    <string name="settings">Nastavení</string>
+    <string name="map">Mapa</string>
+    <string name="stats">Statistiky</string>
+    <string name="author">Autor</string>
+    <string name="lang">Vyberte jazyk</string>
+    <string name="cz">Čeština</string>
+    <string name="en">Angličtina</string>
+
+
 </resources>

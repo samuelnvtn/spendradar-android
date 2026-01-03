@@ -13,7 +13,7 @@ val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "pr
 
 val Context.languageFlow: Flow<String>
     get() = dataStore.data
-        .map { prefs -> prefs[stringPreferencesKey(DataStoreConstants.LANGUAGE)] ?: "cs" }
+        .map { prefs -> prefs[stringPreferencesKey(DataStoreConstants.LANGUAGE)] ?: "" }
 
 suspend fun Context.setLanguage(language: String) {
     dataStore.edit { prefs ->

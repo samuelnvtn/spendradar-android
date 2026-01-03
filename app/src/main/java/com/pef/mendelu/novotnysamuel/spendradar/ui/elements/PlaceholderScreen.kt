@@ -3,8 +3,10 @@ package com.pef.mendelu.novotnysamuel.spendradar.ui.elements
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Text
@@ -14,8 +16,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.Placeholder
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.pef.mendelu.novotnysamuel.spendradar.ui.theme.basicMargin
+import com.pef.mendelu.novotnysamuel.spendradar.ui.theme.textColor
 
 
 data class PlaceholderScreenContent(
@@ -36,7 +40,10 @@ fun PlaceholderScreen(
             end = basicMargin,
             bottom = 0.dp
         )) {
-        Column(modifier = Modifier.align(Alignment.Center)) {
+        Column(
+            modifier = Modifier.align(Alignment.Center),
+            horizontalAlignment = Alignment.CenterHorizontally // Vycentrování obsahu sloupce
+        ) {
             if (placeholderScreenContent.image != null){
                 Image(
                     painter = painterResource(placeholderScreenContent.image),
@@ -47,16 +54,14 @@ fun PlaceholderScreen(
 
             }
             if (placeholderScreenContent.text != null){
-                Text(text = placeholderScreenContent.text)
+                Spacer(modifier = Modifier.height(16.dp)) // Odsazení mezi obrázkem a textem
+                Text(
+                    text = placeholderScreenContent.text,
+                    color = textColor,
+                    textAlign = TextAlign.Center // Vycentrování samotného textu
+                )
             }
         }
     }
 
 }
-
-
-
-
-
-
-

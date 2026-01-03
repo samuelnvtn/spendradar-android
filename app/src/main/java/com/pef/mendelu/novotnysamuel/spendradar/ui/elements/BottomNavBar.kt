@@ -2,10 +2,13 @@ package com.pef.mendelu.novotnysamuel.spendradar.ui.elements
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.DateRange
+import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.filled.Menu
-import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.Warning
+import androidx.compose.material.icons.outlined.Home
+import androidx.compose.material.icons.outlined.LocationOn
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
@@ -14,66 +17,79 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import com.pef.mendelu.novotnysamuel.spendradar.navigation.Destination
+import com.pef.mendelu.novotnysamuel.spendradar.navigation.INavigationRouter
 import kotlin.collections.forEach
+import com.pef.mendelu.novotnysamuel.spendradar.R
+import com.pef.mendelu.novotnysamuel.spendradar.ui.theme.barButton
+import com.pef.mendelu.novotnysamuel.spendradar.ui.theme.barColor
+import com.pef.mendelu.novotnysamuel.spendradar.ui.theme.textColor
 
-/*
-data class BottomNavItem(val icon: ImageVector, val label: String, val destination: Destination)
+
+data class BottomNavItem(
+    val label: String,
+    val destination: Destination,
+    val icon: ImageVector? = null,
+    val iconRes: Int? = null
+)
 
 @Composable
 fun BottomNavBar(
-    //selectedDestination: Destination,
-    //navigation: INavigationRouter
+    selectedDestination: Destination,
+    navigation: INavigationRouter
 ) {
     val items = listOf(
         BottomNavItem(
-            Icons.Default.Menu,
-            (stringResource(R.string.list)),
-            Destination.BeersListScreen
+            label = (stringResource(R.string.list)),
+            destination = Destination.ListScreen,
+            icon = Icons.Outlined.Home
         ),
         BottomNavItem(
-            Icons.Default.LocationOn,
-            (stringResource(R.string.map)),
-            Destination.MapScreen
+            label = (stringResource(R.string.map)),
+            destination = Destination.TestScreen,
+            icon = Icons.Outlined.LocationOn
         ),
         BottomNavItem(
-            Icons.Default.DateRange,
-            (stringResource(R.string.cal)),
-            Destination.CalendarScreen
-        ),
-        BottomNavItem(
-            Icons.Default.Person,
-            (stringResource(R.string.beer_stats)),
-            Destination.StatsScreen
+            label = (stringResource(R.string.stats)),
+            destination = Destination.TestScreen,
+            iconRes = R.drawable.chart
         ),
     )
 
     NavigationBar(
-        containerColor = barColor(),
+        containerColor = barColor,
     ) {
         items.forEach { item ->
             NavigationBarItem(
                 selected = selectedDestination == item.destination,
                 onClick = {
                     when (item.destination) {
-                        Destination.BeersListScreen -> navigation.navigateToList()
-                        Destination.MapScreen -> navigation.navigateToMap()
-                        Destination.CalendarScreen -> navigation.navigateToCalendar()
-                        Destination.StatsScreen -> navigation.navigateToStats()
+                        Destination.ListScreen -> navigation.navigateToList()
+                     //   Destination.MapScreen -> navigation.navigateToMap()
+                      //  Destination.CalendarScreen -> navigation.navigateToCalendar()
+                      //  Destination.StatsScreen -> navigation.navigateToStats()
                         else -> {}
                     }
 
                 },
-                icon = { Icon(item.icon, contentDescription = item.label) },
+                icon = {
+                    if (item.icon != null) {
+                        Icon(item.icon, contentDescription = item.label)
+                    } else if (item.iconRes != null) {
+                        Icon(painter = painterResource(id = item.iconRes), contentDescription = item.label)
+                    }
+                },
                 label = { Text(item.label) },
                 colors = NavigationBarItemDefaults.colors(
-                    selectedIconColor = lightButton,
-                    selectedTextColor = lightButton,
-                    unselectedIconColor = textColor(),
-                    unselectedTextColor = textColor(),
-                    indicatorColor = Color.Transparent
+                    selectedIconColor = textColor,
+                    selectedTextColor = textColor,
+                    unselectedIconColor = textColor,
+                    unselectedTextColor = textColor,
+                    indicatorColor = barButton
                 )
             )
         }
     }
-}*/
+}
