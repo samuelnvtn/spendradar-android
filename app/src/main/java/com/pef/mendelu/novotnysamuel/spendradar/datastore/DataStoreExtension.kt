@@ -11,12 +11,4 @@ import kotlinx.coroutines.flow.map
 
 val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "preferences")
 
-val Context.languageFlow: Flow<String>
-    get() = dataStore.data
-        .map { prefs -> prefs[stringPreferencesKey(DataStoreConstants.LANGUAGE)] ?: "en" }
 
-suspend fun Context.setLanguage(language: String) {
-    dataStore.edit { prefs ->
-        prefs[stringPreferencesKey(DataStoreConstants.LANGUAGE)] = language
-    }
-}

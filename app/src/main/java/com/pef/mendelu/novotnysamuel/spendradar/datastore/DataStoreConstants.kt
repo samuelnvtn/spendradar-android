@@ -1,6 +1,8 @@
 package com.pef.mendelu.novotnysamuel.spendradar.datastore
 
+import androidx.datastore.preferences.core.stringPreferencesKey
+
 object DataStoreConstants {
     const val FIRST_RUN = "first_run"
-    const val LANGUAGE = "language"
+    val LANGUAGE = stringPreferencesKey("language")
 }
