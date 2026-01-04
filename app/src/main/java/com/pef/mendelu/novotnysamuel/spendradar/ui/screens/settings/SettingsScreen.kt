@@ -52,7 +52,7 @@ fun SettingsScreen(
     BaseScreen(
         bottomBarContent = {
             BottomNavBar(
-                selectedDestination = Destination.ListScreen,
+                selectedDestination = Destination.SettingsScreen,
                 navigation = navigation
             )
         },

@@ -1,21 +1,39 @@
 package com.pef.mendelu.novotnysamuel.spendradar.ui.screens.list
 
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.colorResource
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Dialog
 import com.pef.mendelu.novotnysamuel.spendradar.navigation.Destination
 import com.pef.mendelu.novotnysamuel.spendradar.navigation.INavigationRouter
 import com.pef.mendelu.novotnysamuel.spendradar.ui.elements.BaseScreen
@@ -25,12 +43,71 @@ import com.pef.mendelu.novotnysamuel.spendradar.ui.theme.barButton
 import com.pef.mendelu.novotnysamuel.spendradar.ui.theme.textColor
 import com.pef.mendelu.novotnysamuel.spendradar.R
 import com.pef.mendelu.novotnysamuel.spendradar.ui.theme.accentColor
+import com.pef.mendelu.novotnysamuel.spendradar.ui.theme.barColor
 
 @Composable
 fun ListScreen(
     navigation: INavigationRouter
 ){
     var beers = 0
+    var showDialog by remember { mutableStateOf(false) }
+
+    if (showDialog) {
+        Dialog(onDismissRequest = { showDialog = false }) {
+            Surface(
+                shape = RoundedCornerShape(28.dp),
+                color = barButton,
+                border = BorderStroke(1.dp, barColor),
+                modifier = Modifier.width(300.dp)
+            ) {
+                Column(
+                    modifier = Modifier.padding(16.dp),
+                    verticalArrangement = Arrangement.spacedBy(4.dp)
+                ) {
+                    Text(
+                        text = stringResource(R.string.add_receipt),
+                        color = textColor,
+                        style = MaterialTheme.typography.titleLarge,
+                        modifier = Modifier.padding(bottom = 12.dp, start = 8.dp)
+                    )
+
+                    OptionButton(
+                        painter = painterResource(id = R.drawable.camera),
+                        label = stringResource(R.string.scan_camera),
+                        onClick = {
+                            showDialog = false
+                            // TODO: Camera scan
+                        }
+                    )
+                    OptionButton(
+                        painter = painterResource(id = R.drawable.insert_photo),
+                        label = stringResource(R.string.scan_gallery),
+                        onClick = {
+                            showDialog = false
+                            // TODO: Gallery scan
+                        }
+                    )
+                    OptionButton(
+                        painter = painterResource(id = R.drawable.edit),
+                        label = stringResource(R.string.manual_entry),
+                        onClick = {
+                            showDialog = false
+                            // TODO: Manual entry
+                        }
+                    )
+
+                    Spacer(modifier = Modifier.height(8.dp))
+
+                    TextButton(
+                        onClick = { showDialog = false },
+                        modifier = Modifier.align(Alignment.End)
+                    ) {
+                        Text(text = stringResource(R.string.cancel), color = textColor)
+                    }
+                }
+            }
+        }
+    }
 
     BaseScreen(
         bottomBarContent = {
@@ -42,8 +119,7 @@ fun ListScreen(
         placeholderScreenContent = if (beers == 0) {
             PlaceholderScreenContent(
                 image = R.drawable.undraw_empty_void,
-                text = (stringResource(R.string.emptylist)
-            )
+                text = (stringResource(R.string.emptylist))
             )
         } else null,
 
@@ -53,13 +129,14 @@ fun ListScreen(
             }) {
                 Icon(
                     imageVector = Icons.Outlined.Settings,
-                    contentDescription = "Settings"
+                    contentDescription = "Settings",
+                    tint = textColor
                 )
             }},
         topBarText = (stringResource(R.string.receipts)),
         floatingActionButton = {
             FloatingActionButton(onClick = {
-                //navigation.navigateToAddEditBeer(id = null)
+                showDialog = true
             }, containerColor = barButton, contentColor = accentColor,
                 modifier = Modifier.offset(y = (-16).dp)
 
@@ -73,19 +150,44 @@ fun ListScreen(
     ) {
         ListScreenContent(
             paddingValues = it,
-            //beers = beers,
-            //navigation = navigation,
-
-            //actions = viewModel
         )
+    }
+}
+
+@Composable
+fun OptionButton(
+    painter: Painter,
+    label: String,
+    onClick: () -> Unit
+) {
+    TextButton(
+        onClick = onClick,
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Start
+        ) {
+            Icon(
+                painter = painter,
+                contentDescription = null,
+                modifier = Modifier.size(24.dp),
+                tint = textColor
+            )
+            Spacer(modifier = Modifier.width(12.dp))
+            Text(
+                text = label,
+                style = MaterialTheme.typography.bodyLarge,
+                color = textColor
+            )
+        }
     }
 }
 
 @Composable
 fun ListScreenContent(
     paddingValues: PaddingValues,
-   // beers: List<Beer>,
-    //navigation: INavigationRouter,
 ){
 
 }

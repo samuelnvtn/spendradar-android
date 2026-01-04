@@ -10,6 +10,11 @@
     <string name="skip">Skip</string>
     <string name="continue_to_app">Continue</string>
     <string name="list">Dashboard</string>
+    <string name="add_receipt">Add new receipt</string>
+    <string name="scan_camera">Camera</string>
+    <string name="scan_gallery">Gallery</string>
+    <string name="manual_entry">Manual entry</string>
+    <string name="cancel">Cancel</string>
     <string name="receipts">Dashboard</string>
     <string name="map">Map</string>
     <string name="stats">Stats</string>
