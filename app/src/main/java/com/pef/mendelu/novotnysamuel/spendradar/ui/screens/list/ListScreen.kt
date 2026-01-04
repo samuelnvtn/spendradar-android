@@ -42,6 +42,7 @@ import com.pef.mendelu.novotnysamuel.spendradar.ui.elements.PlaceholderScreenCon
 import com.pef.mendelu.novotnysamuel.spendradar.ui.theme.barButton
 import com.pef.mendelu.novotnysamuel.spendradar.ui.theme.textColor
 import com.pef.mendelu.novotnysamuel.spendradar.R
+import com.pef.mendelu.novotnysamuel.spendradar.ui.elements.AddReceiptDialog
 import com.pef.mendelu.novotnysamuel.spendradar.ui.elements.OptionButton
 import com.pef.mendelu.novotnysamuel.spendradar.ui.theme.accentColor
 import com.pef.mendelu.novotnysamuel.spendradar.ui.theme.barColor
@@ -51,63 +52,14 @@ fun ListScreen(
     navigation: INavigationRouter
 ){
     var beers = 0
+
     var showDialog by remember { mutableStateOf(false) }
 
     if (showDialog) {
-        Dialog(onDismissRequest = { showDialog = false }) {
-            Surface(
-                shape = RoundedCornerShape(24.dp),
-                color = barButton,
-                border = BorderStroke(1.dp, barColor),
-                modifier = Modifier.width(260.dp)
-            ) {
-                Column(
-                    modifier = Modifier.padding(16.dp),
-                    verticalArrangement = Arrangement.spacedBy(4.dp)
-                ) {
-                    Text(
-                        text = stringResource(R.string.add_receipt),
-                        color = textColor,
-                        style = MaterialTheme.typography.titleLarge,
-                        modifier = Modifier.padding(bottom = 12.dp, start = 8.dp)
-                    )
-
-                    OptionButton(
-                        painter = painterResource(id = R.drawable.camera),
-                        label = stringResource(R.string.scan_camera),
-                        onClick = {
-                            showDialog = false
-                            // TODO: Camera scan
-                        }
-                    )
-                   /* OptionButton(
-                        painter = painterResource(id = R.drawable.insert_photo),
-                        label = stringResource(R.string.scan_gallery),
-                        onClick = {
-                            showDialog = false
-                            // TODO: Gallery scan
-                        }
-                    )*/
-                    OptionButton(
-                        painter = painterResource(id = R.drawable.edit),
-                        label = stringResource(R.string.manual_entry),
-                        onClick = {
-                            showDialog = false
-                            // TODO: Manual entry
-                        }
-                    )
-
-                    Spacer(modifier = Modifier.height(8.dp))
-
-                    TextButton(
-                        onClick = { showDialog = false },
-                        modifier = Modifier.align(Alignment.End)
-                    ) {
-                        Text(text = stringResource(R.string.cancel), color = textColor)
-                    }
-                }
-            }
-        }
+        AddReceiptDialog(
+            onDismissRequest = { showDialog = false },
+            navigation = navigation
+        )
     }
 
     BaseScreen(
