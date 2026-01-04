@@ -1,23 +1,20 @@
 package com.pef.mendelu.novotnysamuel.spendradar.database
 
 import com.pef.mendelu.novotnysamuel.spendradar.model.Receipt
-import com.pef.mendelu.novotnysamuel.spendradar.model.ReceiptItem
-import com.pef.mendelu.novotnysamuel.spendradar.model.ReceiptWithItems
 import kotlinx.coroutines.flow.Flow
 
 class ReceiptsLocalRepositoryImpl(private val receiptsDao: ReceiptsDao) : IReceiptsLocalRepository {
 
-    override fun getAllReceiptsWithItems(): Flow<List<ReceiptWithItems>> {
-        return receiptsDao.getAllWithItems()
+    override fun getAllReceipts(): Flow<List<Receipt>> {
+        return receiptsDao.getAll()
     }
 
-    override suspend fun getReceiptById(id: Long): ReceiptWithItems? {
+    override suspend fun getReceiptById(id: Long): Receipt? {
         return receiptsDao.getById(id)
     }
 
-    override suspend fun insertFullReceipt(receipt: Receipt, items: List<ReceiptItem>) {
-        // Voláme transakční metodu v DAO, která vyřeší IDčka
-        receiptsDao.insertFullReceipt(receipt, items)
+    override suspend fun insertReceipt(receipt: Receipt) {
+        receiptsDao.insertReceipt(receipt)
     }
 
     override suspend fun deleteReceipt(receipt: Receipt) {

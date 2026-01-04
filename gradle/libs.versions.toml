@@ -23,6 +23,7 @@ googlemap = "2.7.2"
 googlemap_compose = "19.0.0"
 googlemap_foundation = "1.7.8"
 playServicesLocation = "21.3.0"
+foundation = "1.10.0"
 
 
 
@@ -71,6 +72,7 @@ googlemap-compose = { group = "com.google.android.gms", name = "play-services-ma
 googlemap-foundation = { group = "androidx.compose.foundation", name = "foundation", version.ref = "googlemap_foundation" }
 
 play-services-location = { group = "com.google.android.gms", name = "play-services-location", version.ref = "playServicesLocation" }
+androidx-compose-foundation = { group = "androidx.compose.foundation", name = "foundation", version.ref = "foundation" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

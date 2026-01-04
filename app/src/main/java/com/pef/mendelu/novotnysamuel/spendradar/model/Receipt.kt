@@ -10,13 +10,10 @@ data class Receipt(
     var id: Long? = null,
     var storeName: String,
     var type: String? = null,
-    var address: String,
     var latitude: Double,
     var longitude: Double,
     var timestamp: Instant,
     var totalPrice: Long,
     var currency: String,
-    )
-{
-
-}
+    var items: List<ReceiptItem> = emptyList()
+)

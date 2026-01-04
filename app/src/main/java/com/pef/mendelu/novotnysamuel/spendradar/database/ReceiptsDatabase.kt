@@ -7,9 +7,8 @@ import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
 import com.pef.mendelu.novotnysamuel.spendradar.model.Converters
 import com.pef.mendelu.novotnysamuel.spendradar.model.Receipt
-import com.pef.mendelu.novotnysamuel.spendradar.model.ReceiptItem
 
-@Database(entities = [Receipt::class, ReceiptItem::class], version = 1, exportSchema = false)
+@Database(entities = [Receipt::class], version = 2, exportSchema = false)
 @TypeConverters(Converters::class)
 abstract class ReceiptsDatabase : RoomDatabase() {
 

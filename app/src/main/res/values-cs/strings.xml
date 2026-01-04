@@ -17,6 +17,24 @@
     <string name="lang">Vyberte jazyk</string>
     <string name="cz">Čeština</string>
     <string name="en">Angličtina</string>
+    <string name="new_receipt">Nový záznam</string>
+    <string name="store_name">Název obchodu</string>
+    <string name="date">Datum</string>
+    <string name="time">Čas</string>
+    <string name="pick_date">Vybrat datum</string>
+    <string name="pick_time">Vybrat čas</string>
+    <string name="date_time">Datum a čas</string>
+    <string name="pick_date_time">Vybrat</string>
+    <string name="add_date_placeholder">Vyberte datum</string>
+    <string name="purchase_location">Místo nákupu</string>
+    <string name="purchase_items">Položky nákupu</string>
+    <string name="add_item">Přidat položku</string>
+    <string name="item_name">Produkt</string>
+    <string name="item_quantity">Ks</string>
+    <string name="item_price">Cena</string>
+    <string name="remove_item">Odebrat položku</string>
+    <string name="save_receipt">Uložit záznam</string>
+    <string name="no_items">Přidejte první položku.</string>
 
 
 </resources>

@@ -24,4 +24,22 @@
     <string name="lang">Select language</string>
     <string name="cz">Czech</string>
     <string name="en">English</string>
+    <string name="new_receipt">New entry</string>
+    <string name="store_name">Store name</string>
+    <string name="date">Date</string>
+    <string name="time">Time</string>
+    <string name="pick_date">Pick date</string>
+    <string name="pick_time">Pick time</string>
+    <string name="date_time">Date &amp; time</string>
+    <string name="pick_date_time">Pick</string>
+    <string name="add_date_placeholder">Select date</string>
+    <string name="purchase_location">Purchase location</string>
+    <string name="purchase_items">Purchase items</string>
+    <string name="add_item">Add item</string>
+    <string name="item_name">Product</string>
+    <string name="item_quantity">Qt</string>
+    <string name="item_price">Price</string>
+    <string name="remove_item">Remove item</string>
+    <string name="save_receipt">Save entry</string>
+    <string name="no_items">Add your first item.</string>
 </resources>
