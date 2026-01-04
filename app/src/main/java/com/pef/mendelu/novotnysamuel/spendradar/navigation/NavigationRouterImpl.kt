@@ -12,7 +12,7 @@ class NavigationRouterImpl(private val navController: NavController) : INavigati
     }
 
     override fun navigateToMap() {
-        TODO("Not yet implemented")
+        navController.navigate(Destination.MapScreen.route)
     }
 
     override fun navigateToSettings() {

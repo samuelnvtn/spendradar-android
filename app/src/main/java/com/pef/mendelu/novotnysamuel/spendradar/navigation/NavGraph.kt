@@ -10,6 +10,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.pef.mendelu.novotnysamuel.spendradar.ui.screens.TestScreen
 import com.pef.mendelu.novotnysamuel.spendradar.ui.screens.list.ListScreen
+import com.pef.mendelu.novotnysamuel.spendradar.ui.screens.map.MapScreen
 import com.pef.mendelu.novotnysamuel.spendradar.ui.screens.settings.SettingsScreen
 
 @Composable
@@ -25,6 +26,10 @@ fun NavGraph(
 
         composable(route = Destination.ListScreen.route) {
             ListScreen(navRouter)
+        }
+
+        composable(route = Destination.MapScreen.route) {
+            MapScreen(navRouter)
         }
 
         composable(route = Destination.TestScreen.route) {
@@ -54,9 +59,7 @@ fun NavGraph(
         }
 
 
-        composable(route = Destination.MapScreen.route) {
-            MapScreen(navRouter)
-        }
+
 
         composable(route = Destination.CalendarScreen.route) {
             CalendarScreen(navRouter)

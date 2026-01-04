@@ -19,6 +19,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.SpendRadar">
 
+        <meta-data android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyC0OTiwAcTtmI7rCH90N2m0IhR7Lk5RIRA"/>
+
         <activity
             android:name=".ui.activities.AppIntroActivity"
             android:exported="false"

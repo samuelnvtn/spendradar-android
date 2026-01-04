@@ -42,6 +42,7 @@ import com.pef.mendelu.novotnysamuel.spendradar.ui.elements.PlaceholderScreenCon
 import com.pef.mendelu.novotnysamuel.spendradar.ui.theme.barButton
 import com.pef.mendelu.novotnysamuel.spendradar.ui.theme.textColor
 import com.pef.mendelu.novotnysamuel.spendradar.R
+import com.pef.mendelu.novotnysamuel.spendradar.ui.elements.OptionButton
 import com.pef.mendelu.novotnysamuel.spendradar.ui.theme.accentColor
 import com.pef.mendelu.novotnysamuel.spendradar.ui.theme.barColor
 
@@ -55,10 +56,10 @@ fun ListScreen(
     if (showDialog) {
         Dialog(onDismissRequest = { showDialog = false }) {
             Surface(
-                shape = RoundedCornerShape(28.dp),
+                shape = RoundedCornerShape(24.dp),
                 color = barButton,
                 border = BorderStroke(1.dp, barColor),
-                modifier = Modifier.width(300.dp)
+                modifier = Modifier.width(260.dp)
             ) {
                 Column(
                     modifier = Modifier.padding(16.dp),
@@ -79,14 +80,14 @@ fun ListScreen(
                             // TODO: Camera scan
                         }
                     )
-                    OptionButton(
+                   /* OptionButton(
                         painter = painterResource(id = R.drawable.insert_photo),
                         label = stringResource(R.string.scan_gallery),
                         onClick = {
                             showDialog = false
                             // TODO: Gallery scan
                         }
-                    )
+                    )*/
                     OptionButton(
                         painter = painterResource(id = R.drawable.edit),
                         label = stringResource(R.string.manual_entry),
@@ -151,37 +152,6 @@ fun ListScreen(
         ListScreenContent(
             paddingValues = it,
         )
-    }
-}
-
-@Composable
-fun OptionButton(
-    painter: Painter,
-    label: String,
-    onClick: () -> Unit
-) {
-    TextButton(
-        onClick = onClick,
-        modifier = Modifier.fillMaxWidth()
-    ) {
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.Start
-        ) {
-            Icon(
-                painter = painter,
-                contentDescription = null,
-                modifier = Modifier.size(24.dp),
-                tint = textColor
-            )
-            Spacer(modifier = Modifier.width(12.dp))
-            Text(
-                text = label,
-                style = MaterialTheme.typography.bodyLarge,
-                color = textColor
-            )
-        }
     }
 }
 

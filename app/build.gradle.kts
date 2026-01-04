@@ -86,5 +86,11 @@ dependencies {
     implementation(libs.appcompat)
 
     implementation(libs.accompanist.permissions)
+    implementation(libs.gson)
+
+    //Maps
+    implementation(libs.googlemap)
+    implementation(libs.googlemap.compose)
+    implementation(libs.googlemap.foundation)
 
 }
