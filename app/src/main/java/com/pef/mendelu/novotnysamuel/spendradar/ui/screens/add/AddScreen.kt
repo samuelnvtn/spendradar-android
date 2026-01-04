@@ -137,6 +137,7 @@ fun AddScreenContent(
     val context = LocalContext.current
     var isMapInteracting by remember { mutableStateOf(false) }
     val scrollState = rememberScrollState()
+    var locationInitialized by remember { mutableStateOf(false) }
 
     val dateText = if (state.dateMillis == null) {
         stringResource(R.string.add_date_placeholder)
@@ -206,11 +207,12 @@ fun AddScreenContent(
         onPermissionDenied = { hasLocationPermission = false }
     )
 
-    LaunchedEffect(hasLocationPermission, state.location) {
-        if (hasLocationPermission && isDefaultLocation(state.location)) {
+    LaunchedEffect(hasLocationPermission) {
+        if (hasLocationPermission && !locationInitialized && isDefaultLocation(state.location)) {
             val location = getLastKnownLocation(context)
             if (location != null) {
                 actions.onLocationChange(LatLng(location.latitude, location.longitude))
+                locationInitialized = true
             }
         }
     }

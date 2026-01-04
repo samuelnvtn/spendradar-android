@@ -6,7 +6,7 @@ TODO:
 4. ~~Data v mape~~
 5. Clustering
 6. Detail
-7. Bottom Sheet u mapy asi?
+7. ~~Bottom Sheet u mapy asi?~~
 6. ~~List design~~
 7. Statistiky ve VM
 8. Mapa loading pri prvnim otevreni

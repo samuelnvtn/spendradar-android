@@ -7,11 +7,15 @@ val textColor = Color(0xFFFFFFFF)
 val barButton = Color(0xFF156739)
 
 val backgroundColor = Color(0xFF000000)
+val greenBackground = Color(0xFF12251A)
+val darkBackground = Color(0xFF16201D)
+
 
 //12251A
 
 val lightButton = Color(0xFF156739)
 
+val darkGreen = Color(0xFF1A2C23)
 
 val accentColor = Color(0xFF11EB6E)
 

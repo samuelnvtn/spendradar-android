@@ -55,6 +55,7 @@ import com.pef.mendelu.novotnysamuel.spendradar.ui.theme.accentColor
 import com.pef.mendelu.novotnysamuel.spendradar.ui.theme.barButton
 import com.pef.mendelu.novotnysamuel.spendradar.ui.theme.barColor
 import com.pef.mendelu.novotnysamuel.spendradar.ui.theme.basicMargin
+import com.pef.mendelu.novotnysamuel.spendradar.ui.theme.darkGreen
 import com.pef.mendelu.novotnysamuel.spendradar.ui.theme.halfMargin
 import com.pef.mendelu.novotnysamuel.spendradar.ui.theme.textColor
 import java.time.ZoneId
@@ -141,24 +142,27 @@ fun ListScreenContent(
 ){
     val items = remember(receipts) { buildListItems(receipts) }
 
-    LazyColumn(
+    Column(
         modifier = Modifier
             .fillMaxSize()
             .padding(paddingValues)
             .padding(horizontal = basicMargin, vertical = halfMargin),
-        contentPadding = PaddingValues(bottom = 80.dp),
-        verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
-        item {
-            MonthlySummaryCard(total = monthlyTotal)
-        }
+        MonthlySummaryCard(total = monthlyTotal)
+        Spacer(modifier = Modifier.height(12.dp))
 
-        items(items, key = { it.key }) { item ->
-            when (item) {
-                is ListItem.DateHeader -> DateHeader(text = item.label)
-                is ListItem.ReceiptRow -> {
-                    ReceiptRow(receipt = item.receipt)
-                    Divider(color = barButton.copy(alpha = 0.4f))
+        LazyColumn(
+            modifier = Modifier.fillMaxSize(),
+            contentPadding = PaddingValues(bottom = 80.dp),
+            verticalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
+            items(items, key = { it.key }) { item ->
+                when (item) {
+                    is ListItem.DateHeader -> DateHeader(text = item.label)
+                    is ListItem.ReceiptRow -> {
+                        ReceiptRow(receipt = item.receipt)
+                        Divider(color = barButton.copy(alpha = 0.4f))
+                    }
                 }
             }
         }
@@ -193,8 +197,8 @@ private fun buildListItems(receipts: List<Receipt>): List<ListItem> {
 private fun MonthlySummaryCard(total: Long) {
     Surface(
         shape = RoundedCornerShape(20.dp),
-        color = barColor,
-        border = BorderStroke(1.dp, barButton),
+        color = darkGreen,
+        //border = BorderStroke(1.dp, barButton),
         modifier = Modifier.fillMaxWidth()
     ) {
         Column(modifier = Modifier.padding(16.dp)) {

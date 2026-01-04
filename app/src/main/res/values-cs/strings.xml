@@ -43,6 +43,7 @@
     <string name="category_fashion">Móda</string>
     <string name="category_other">Ostatní</string>
     <string name="monthly_total_label">Celkové výdaje tento měsíc:</string>
+    <string name="total_label">Celkem</string>
     <string name="error_item_name_required">Název produktu je povinný</string>
     <string name="error_item_quantity">Zadejte platný počet</string>
     <string name="error_item_price">Zadejte platnou cenu</string>
