@@ -17,15 +17,15 @@ class MapViewModel  @Inject constructor(private val repository: IReceiptsLocalRe
         MutableStateFlow(value = MapUIState.Default())
 
     val mapUIState = _mapUIState.asStateFlow()
-/*
+
     fun loadReceipts(){
         viewModelScope.launch {
-            repository.getAll().collect { beers ->
+            repository.getAllReceipts().collect { receipts ->
                 _mapUIState.update {
-                    MapUIState.Success(beers)
+                    MapUIState.Success(receipts)
                 }
             }
         }
-    }*/
+    }
 
 }
