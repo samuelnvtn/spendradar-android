@@ -31,6 +31,8 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.DatePicker
 import androidx.compose.material3.DatePickerDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExposedDropdownMenuBox
+import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -40,6 +42,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.TimePicker
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.material3.rememberTimePickerState
 import androidx.compose.runtime.Composable
@@ -129,6 +132,7 @@ fun AddScreenContent(
 ) {
     var showDatePicker by remember { mutableStateOf(false) }
     var showTimePicker by remember { mutableStateOf(false) }
+    var categoryExpanded by remember { mutableStateOf(false) }
     var hasLocationPermission by remember { mutableStateOf(false) }
     val context = LocalContext.current
     var isMapInteracting by remember { mutableStateOf(false) }
@@ -228,6 +232,39 @@ fun AddScreenContent(
             singleLine = true,
             maxLines = 1
         )
+
+        ExposedDropdownMenuBox(
+            expanded = categoryExpanded,
+            onExpandedChange = { categoryExpanded = !categoryExpanded }
+        ) {
+            OutlinedTextField(
+                value = categoryLabel(state.category),
+                onValueChange = {},
+                readOnly = true,
+                label = { Text(stringResource(R.string.category)) },
+                trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = categoryExpanded) },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .menuAnchor(),
+                colors = textFieldColors(),
+                singleLine = true,
+                maxLines = 1
+            )
+            ExposedDropdownMenu(
+                expanded = categoryExpanded,
+                onDismissRequest = { categoryExpanded = false }
+            ) {
+                ReceiptCategory.values().forEach { category ->
+                    DropdownMenuItem(
+                        text = { Text(text = categoryLabel(category)) },
+                        onClick = {
+                            actions.onCategoryChange(category)
+                            categoryExpanded = false
+                        }
+                    )
+                }
+            }
+        }
 
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -375,6 +412,14 @@ fun AddScreenContent(
             }
         }
 
+        if (!areItemsValid(state.items)) {
+            Text(
+                text = stringResource(R.string.error_items_required),
+                color = MaterialTheme.colorScheme.error,
+                style = MaterialTheme.typography.bodySmall
+            )
+        }
+
         Button(
             onClick = actions::onSave,
             modifier = Modifier
@@ -483,4 +528,43 @@ private fun isDefaultLocation(location: LatLng): Boolean {
     val defaultLng = 16.6145219
     return kotlin.math.abs(location.latitude - defaultLat) < 0.0001 &&
         kotlin.math.abs(location.longitude - defaultLng) < 0.0001
+}
+
+private fun isValidQuantity(value: String): Boolean {
+    val quantity = value.trim().toIntOrNull() ?: return false
+    return quantity > 0
+}
+
+private fun isValidPrice(value: String): Boolean {
+    val normalized = value.trim().replace(",", ".")
+    if (normalized.isBlank()) return false
+    return try {
+        val decimal = java.math.BigDecimal(normalized)
+        decimal.multiply(java.math.BigDecimal(100))
+            .setScale(0, java.math.RoundingMode.HALF_UP)
+            .toLong() > 0
+    } catch (ex: NumberFormatException) {
+        false
+    }
+}
+
+private fun areItemsValid(items: List<AddReceiptItemInput>): Boolean {
+    if (items.isEmpty()) return false
+    return items.all { item ->
+        item.name.trim().isNotBlank() &&
+            isValidQuantity(item.quantity) &&
+            isValidPrice(item.price)
+    }
+}
+
+@Composable
+private fun categoryLabel(category: ReceiptCategory): String {
+    return when (category) {
+        ReceiptCategory.FOOD_DRINK -> stringResource(R.string.category_food_drink)
+        ReceiptCategory.GROCERIES -> stringResource(R.string.category_groceries)
+        ReceiptCategory.PHARMACY -> stringResource(R.string.category_pharmacy)
+        ReceiptCategory.ELECTRONICS -> stringResource(R.string.category_electronics)
+        ReceiptCategory.FASHION -> stringResource(R.string.category_fashion)
+        ReceiptCategory.OTHER -> stringResource(R.string.category_other)
+    }
 }

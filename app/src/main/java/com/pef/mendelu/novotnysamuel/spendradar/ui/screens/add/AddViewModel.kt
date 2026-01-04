@@ -44,6 +44,10 @@ class AddViewModel @Inject constructor(
         _uiState.update { it.copy(location = value) }
     }
 
+    override fun onCategoryChange(category: ReceiptCategory) {
+        _uiState.update { it.copy(category = category) }
+    }
+
     override fun onAddItem() {
         _uiState.update { it.copy(items = it.items + AddReceiptItemInput()) }
     }
@@ -95,8 +99,7 @@ class AddViewModel @Inject constructor(
 
             val receipt = Receipt(
                 storeName = state.storeName.trim().ifBlank { "Unknown store" },
-                type = null,
-                address = "",
+                type = state.category.storageValue,
                 latitude = state.location.latitude,
                 longitude = state.location.longitude,
                 timestamp = timestamp,

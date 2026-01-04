@@ -42,4 +42,15 @@
     <string name="remove_item">Remove item</string>
     <string name="save_receipt">Save entry</string>
     <string name="no_items">Add your first item.</string>
+    <string name="category">Category</string>
+    <string name="category_food_drink">Food &amp; drink</string>
+    <string name="category_groceries">Groceries</string>
+    <string name="category_pharmacy">Pharmacy</string>
+    <string name="category_electronics">Electronics</string>
+    <string name="category_fashion">Fashion</string>
+    <string name="category_other">Other</string>
+    <string name="error_item_name_required">Product name is required</string>
+    <string name="error_item_quantity">Enter valid quantity</string>
+    <string name="error_item_price">Enter valid price</string>
+    <string name="error_items_required">Items must not be empty</string>
 </resources>

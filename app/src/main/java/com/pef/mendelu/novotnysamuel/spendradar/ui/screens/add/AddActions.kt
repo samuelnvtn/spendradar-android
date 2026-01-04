@@ -8,6 +8,7 @@ interface AddActions {
     fun onDateChange(value: Long?)
     fun onTimeChange(value: LocalTime)
     fun onLocationChange(value: LatLng)
+    fun onCategoryChange(category: ReceiptCategory)
     fun onAddItem()
     fun onRemoveItem(index: Int)
     fun onItemNameChange(index: Int, value: String)

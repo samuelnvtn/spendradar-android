@@ -35,6 +35,17 @@
     <string name="remove_item">Odebrat položku</string>
     <string name="save_receipt">Uložit záznam</string>
     <string name="no_items">Přidejte první položku.</string>
+    <string name="category">Kategorie</string>
+    <string name="category_food_drink">Jídlo a pití</string>
+    <string name="category_groceries">Potraviny</string>
+    <string name="category_pharmacy">Lékárna</string>
+    <string name="category_electronics">Elektronika</string>
+    <string name="category_fashion">Móda</string>
+    <string name="category_other">Ostatní</string>
+    <string name="error_item_name_required">Název produktu je povinný</string>
+    <string name="error_item_quantity">Zadejte platný počet</string>
+    <string name="error_item_price">Zadejte platnou cenu</string>
+    <string name="error_items_required">Položky nesmí být prázdné</string>
 
 
 </resources>

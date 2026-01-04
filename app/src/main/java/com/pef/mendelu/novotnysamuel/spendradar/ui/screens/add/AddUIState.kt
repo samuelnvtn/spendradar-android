@@ -14,7 +14,17 @@ data class AddUIState(
     val dateMillis: Long? = System.currentTimeMillis(),
     val time: LocalTime = LocalTime.now(),
     val location: LatLng = LatLng(49.2098028, 16.6145219),
+    val category: ReceiptCategory = ReceiptCategory.FOOD_DRINK,
     val items: List<AddReceiptItemInput> = emptyList(),
     val isSaving: Boolean = false,
     val saveCompleted: Boolean = false
 )
+
+enum class ReceiptCategory(val label: String, val storageValue: String) {
+    FOOD_DRINK("Food & drink", "FOOD_DRINK"),
+    GROCERIES("Groceries", "GROCERIES"),
+    PHARMACY("Pharmacy", "PHARMACY"),
+    ELECTRONICS("Electronics", "ELECTRONICS"),
+    FASHION("Fashion", "FASHION"),
+    OTHER("Other", "OTHER")
+}
