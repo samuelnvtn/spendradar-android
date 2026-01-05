@@ -19,6 +19,10 @@ class NavigationRouterImpl(private val navController: NavController) : INavigati
         navController.navigate(Destination.MapScreen.route)
     }
 
+    override fun navigateToStats() {
+        navController.navigate(Destination.StatsScreen.route)
+    }
+
     override fun navigateToDetail(id: Long) {
         navController.navigate("${Destination.DetailScreen.route}/${id}")
     }

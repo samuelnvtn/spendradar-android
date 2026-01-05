@@ -52,8 +52,8 @@ fun BottomNavBar(
             icon = Icons.Outlined.LocationOn
         ),
         BottomNavItem(
-            label = (stringResource(R.string.stats)),
-            destination = Destination.TestScreen,
+            label = (stringResource(R.string.stats_title)),
+            destination = Destination.StatsScreen,
             iconRes = R.drawable.chart
         ),
     )
@@ -68,8 +68,7 @@ fun BottomNavBar(
                     when (item.destination) {
                         Destination.ListScreen -> navigation.navigateToList()
                         Destination.MapScreen -> navigation.navigateToMap()
-                      //  Destination.CalendarScreen -> navigation.navigateToCalendar()
-                      //  Destination.StatsScreen -> navigation.navigateToStats()
+                        Destination.StatsScreen -> navigation.navigateToStats()
                         else -> {}
                     }
 

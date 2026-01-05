@@ -95,4 +95,6 @@ dependencies {
     implementation(libs.googlemap.compose)
     implementation(libs.googlemap.foundation)
 
+    implementation(libs.compose.charts)
+
 }

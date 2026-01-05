@@ -4,7 +4,6 @@
     <string name="welcome_to">Vítejte v aplikaci</string>
     <string name="intro_text_1">This is the best app for smart tracking of your expenses.</string>
     <string name="intro_text_2">The app is written using Compose. Enjoy!!!!!!!</string>
-    <string name="compose">Jetpack Compose</string>
     <string name="skip">Přeskočit</string>
     <string name="continue_to_app">Pokračovat</string>
     <string name="list">Přehled</string>
@@ -12,7 +11,6 @@
     <string name="emptylist">Je tu nějak prázdno. Začni oskenováním účtenky.</string>
     <string name="settings">Nastavení</string>
     <string name="map">Mapa</string>
-    <string name="stats">Statistiky</string>
     <string name="author">Autor</string>
     <string name="lang">Vyberte jazyk</string>
     <string name="cz">Čeština</string>
@@ -51,5 +49,28 @@
     <string name="delete_entry">Smazat záznam</string>
     <string name="detail">Detail</string>
     <string name="edit_receipt">Úprava</string>
+
+    <string name="stats_title">Statistiky</string>
+    <string name="stats_tab_day">Den</string>
+    <string name="stats_tab_week">Týden</string>
+    <string name="stats_tab_month">Měsíc</string>
+    <string name="stats_tab_year">Rok</string>
+    <string name="stats_section_title">Statistiky</string>
+    <string name="stats_total_day">Celkové dnešní výdaje</string>
+    <string name="stats_total_week">Celkové výdaje tento týden</string>
+    <string name="stats_total_month">Celkové výdaje tento měsíc</string>
+    <string name="stats_total_year">Celkové výdaje tento rok</string>
+    <string name="stats_most_visited">Nejnavštěvovanější obchod</string>
+    <string name="stats_top_spend">Obchod s největší útratou</string>
+    <string name="stats_graph_title">Graf</string>
+    <string name="stats_empty">No data</string>
+    <string name="add_receipt">Přidat nový záznam</string>
+    <string name="scan_camera">Kamera</string>
+    <string name="scan_gallery">Galerie</string>
+    <string name="manual_entry">Manuální přidání</string>
+    <string name="cancel">Zrušit</string>
+    <string name="intro_text_3">Vy utrácíte. My AInalyzujeme. SpendRadar vám ukáže, kam jdou vaše peníze.</string>
+    <string name="intro2">Mapujte své útraty</string>
+    <string name="intro3">S využitím AI</string>
 
 </resources>

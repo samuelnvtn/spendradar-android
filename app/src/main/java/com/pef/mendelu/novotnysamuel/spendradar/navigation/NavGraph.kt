@@ -14,6 +14,7 @@ import com.pef.mendelu.novotnysamuel.spendradar.ui.screens.detail.DetailScreen
 import com.pef.mendelu.novotnysamuel.spendradar.ui.screens.list.ListScreen
 import com.pef.mendelu.novotnysamuel.spendradar.ui.screens.map.MapScreen
 import com.pef.mendelu.novotnysamuel.spendradar.ui.screens.settings.SettingsScreen
+import com.pef.mendelu.novotnysamuel.spendradar.ui.screens.stats.StatsScreen
 
 @Composable
 fun NavGraph(
@@ -32,6 +33,10 @@ fun NavGraph(
 
         composable(route = Destination.MapScreen.route) {
             MapScreen(navRouter)
+        }
+
+        composable(route = Destination.StatsScreen.route) {
+            StatsScreen(navRouter)
         }
 
         composable(route = Destination.AddScreen.route) {
