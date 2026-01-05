@@ -1,6 +1,7 @@
 package com.pef.mendelu.novotnysamuel.spendradar.ui.screens.add
 
 import com.google.android.gms.maps.model.LatLng
+import com.pef.mendelu.novotnysamuel.spendradar.model.ReceiptCategory
 import java.time.LocalTime
 
 interface AddActions {

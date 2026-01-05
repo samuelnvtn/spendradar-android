@@ -6,6 +6,7 @@ import android.util.Log
 import com.google.android.gms.maps.model.LatLng
 import com.pef.mendelu.novotnysamuel.spendradar.database.IReceiptsLocalRepository
 import com.pef.mendelu.novotnysamuel.spendradar.model.Receipt
+import com.pef.mendelu.novotnysamuel.spendradar.model.ReceiptCategory
 import com.pef.mendelu.novotnysamuel.spendradar.model.ReceiptItem
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
