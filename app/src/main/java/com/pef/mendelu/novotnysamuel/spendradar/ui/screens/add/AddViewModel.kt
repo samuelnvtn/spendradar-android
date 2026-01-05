@@ -8,7 +8,7 @@ import com.pef.mendelu.novotnysamuel.spendradar.database.IReceiptsLocalRepositor
 import com.pef.mendelu.novotnysamuel.spendradar.model.Receipt
 import com.pef.mendelu.novotnysamuel.spendradar.model.ReceiptCategory
 import com.pef.mendelu.novotnysamuel.spendradar.model.ReceiptItem
-import com.pef.mendelu.novotnysamuel.spendradar.utils.ReceiptDraft
+import com.pef.mendelu.novotnysamuel.spendradar.model.ReceiptDraft
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow

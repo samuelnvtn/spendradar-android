@@ -4,11 +4,14 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import android.graphics.Bitmap
 import com.google.android.gms.maps.model.LatLng
+import com.pef.mendelu.novotnysamuel.spendradar.communication.CommunicationError
+import com.pef.mendelu.novotnysamuel.spendradar.communication.CommunicationResult
+import com.pef.mendelu.novotnysamuel.spendradar.communication.GeminiParser
+import com.pef.mendelu.novotnysamuel.spendradar.communication.IGeminiRemoteRepository
 import com.pef.mendelu.novotnysamuel.spendradar.model.ReceiptCategory
 import com.pef.mendelu.novotnysamuel.spendradar.ui.screens.add.AddReceiptItemInput
-import com.pef.mendelu.novotnysamuel.spendradar.utils.GeminiParser
-import com.pef.mendelu.novotnysamuel.spendradar.utils.ReceiptDraft
-import com.pef.mendelu.novotnysamuel.spendradar.utils.ReceiptDraftStore
+import com.pef.mendelu.novotnysamuel.spendradar.model.ReceiptDraft
+import com.pef.mendelu.novotnysamuel.spendradar.model.ReceiptDraftStore
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -21,13 +24,18 @@ import javax.inject.Inject
 import kotlin.math.roundToLong
 
 @HiltViewModel
-class TextRecognitionViewModel @Inject constructor() : ViewModel() {
+class TextRecognitionViewModel @Inject constructor(
+    private val geminiRepository: IGeminiRemoteRepository
+) : ViewModel() {
 
     private val _isCapturing = MutableStateFlow(false)
     val isCapturing = _isCapturing.asStateFlow()
 
     private val _isLoading = MutableStateFlow(false)
     val isLoading = _isLoading.asStateFlow()
+
+    private val _error = MutableStateFlow<CommunicationError?>(null)
+    val error = _error.asStateFlow()
 
     private val _navigateToEditId = MutableStateFlow<Long?>(null)
     val navigateToEditId = _navigateToEditId.asStateFlow()
@@ -36,13 +44,18 @@ class TextRecognitionViewModel @Inject constructor() : ViewModel() {
         if (!_isCapturing.value) return
         _isCapturing.value = false
         _isLoading.value = true
+        _error.value = null
 
         viewModelScope.launch {
-            val parsedData = GeminiParser.parseReceipt(bitmap)
-            if (parsedData != null) {
-                val draft = mapToDraft(parsedData)
-                ReceiptDraftStore.set(draft)
-                _navigateToEditId.value = 0L
+            when (val result = geminiRepository.parseReceipt(bitmap)) {
+                is CommunicationResult.Success -> {
+                    val draft = mapToDraft(result.data)
+                    ReceiptDraftStore.set(draft)
+                    _navigateToEditId.value = 0L
+                }
+                is CommunicationResult.Error -> {
+                    _error.value = result.error
+                }
             }
             _isLoading.value = false
         }
@@ -55,6 +68,10 @@ class TextRecognitionViewModel @Inject constructor() : ViewModel() {
 
     fun onNavigationHandled() {
         _navigateToEditId.value = null
+    }
+
+    fun onErrorHandled() {
+        _error.value = null
     }
 
     private fun mapToDraft(parsed: GeminiParser.GeminiReceiptResponse): ReceiptDraft {

@@ -11,6 +11,10 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.AlertDialogDefaults
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
@@ -28,19 +32,21 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.pef.mendelu.novotnysamuel.spendradar.communication.CommunicationError
 import com.pef.mendelu.novotnysamuel.spendradar.navigation.INavigationRouter
 import com.pef.mendelu.novotnysamuel.spendradar.permissions.CameraPermissionHandler
 import com.pef.mendelu.novotnysamuel.spendradar.ui.elements.BaseScreen
 import com.pef.mendelu.novotnysamuel.spendradar.ui.elements.CameraComposeView
 import com.pef.mendelu.novotnysamuel.spendradar.utils.TextRecognizer
 import com.pef.mendelu.novotnysamuel.spendradar.ui.theme.accentColor
+import com.pef.mendelu.novotnysamuel.spendradar.ui.theme.barButton
+import com.pef.mendelu.novotnysamuel.spendradar.ui.theme.textColor
 
 
 @Composable
 fun TextRecognitionScreen(navigation: INavigationRouter) {
     val viewModel = hiltViewModel<TextRecognitionViewModel>()
     val navigateToEditId by viewModel.navigateToEditId.collectAsStateWithLifecycle()
-    val isLoading by viewModel.isLoading.collectAsStateWithLifecycle()
 
     LaunchedEffect(navigateToEditId) {
         val id = navigateToEditId
@@ -69,6 +75,7 @@ fun TextRecognitionScreenContent(
 ) {
     val isCapturing by viewModel.isCapturing.collectAsStateWithLifecycle()
     val isLoading by viewModel.isLoading.collectAsStateWithLifecycle()
+    val error by viewModel.error.collectAsStateWithLifecycle()
     var hasPermission by remember { mutableStateOf(false) }
 
     val textAnalyzer = remember(viewModel) {
@@ -83,7 +90,11 @@ fun TextRecognitionScreenContent(
         onPermissionDenied = { hasPermission = false }
     )
 
-    Box(modifier = Modifier.fillMaxSize().padding(paddingValues)) {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(paddingValues)
+    ) {
         if (hasPermission) {
             CameraComposeView(
                 paddingValues = PaddingValues(0.dp),
@@ -109,6 +120,33 @@ fun TextRecognitionScreenContent(
                     )
                 }
             }
+        }
+
+        if (error != null) {
+            val message = when (error) {
+                is CommunicationError.NoInternet -> stringResource(R.string.gemini_no_internet)
+                else -> stringResource(R.string.gemini_failed)
+            }
+            AlertDialog(
+                onDismissRequest = { viewModel.onErrorHandled() },
+                title = { Text(text = stringResource(R.string.error_title)) },
+                text = { Text(text = message) },
+                confirmButton = {
+                    Button(
+                        onClick = { viewModel.onErrorHandled() },
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = accentColor,
+                            contentColor = textColor
+                        )
+                    ) {
+                        Text(text = stringResource(R.string.action_ok))
+                    }
+                },
+                containerColor = barButton,
+                titleContentColor = textColor,
+                textContentColor = textColor,
+                tonalElevation = AlertDialogDefaults.TonalElevation
+            )
         }
 
         Box(

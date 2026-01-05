@@ -20,6 +20,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -30,18 +31,19 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.CameraPosition
-import com.google.android.gms.maps.model.BitmapDescriptor
 import com.google.android.gms.maps.model.LatLng
+import com.google.maps.android.clustering.ClusterManager
 import com.google.maps.android.compose.GoogleMap
+import com.google.maps.android.compose.MapEffect
 import com.google.maps.android.compose.MapProperties
 import com.google.maps.android.compose.MapUiSettings
 import com.google.maps.android.compose.MapsComposeExperimentalApi
-import com.google.maps.android.compose.Marker
-import com.google.maps.android.compose.MarkerState
 import com.google.maps.android.compose.rememberCameraPositionState
 import com.pef.mendelu.novotnysamuel.spendradar.R
-import com.pef.mendelu.novotnysamuel.spendradar.model.ReceiptCategory
+import com.pef.mendelu.novotnysamuel.spendradar.map.ClusterMapRenderer
 import com.pef.mendelu.novotnysamuel.spendradar.model.Receipt
 import com.pef.mendelu.novotnysamuel.spendradar.navigation.Destination
 import com.pef.mendelu.novotnysamuel.spendradar.navigation.INavigationRouter
@@ -50,14 +52,11 @@ import com.pef.mendelu.novotnysamuel.spendradar.ui.elements.AddReceiptDialog
 import com.pef.mendelu.novotnysamuel.spendradar.ui.elements.BaseScreen
 import com.pef.mendelu.novotnysamuel.spendradar.ui.elements.BottomNavBar
 import com.pef.mendelu.novotnysamuel.spendradar.ui.elements.ReceiptBottomSheetContent
-import com.pef.mendelu.novotnysamuel.spendradar.ui.elements.categoryColor
-import com.pef.mendelu.novotnysamuel.spendradar.ui.elements.categoryIcon
-import com.pef.mendelu.novotnysamuel.spendradar.ui.elements.categoryIconTint
-import com.pef.mendelu.novotnysamuel.spendradar.ui.elements.customMarkerIcon
 import com.pef.mendelu.novotnysamuel.spendradar.ui.theme.accentColor
 import com.pef.mendelu.novotnysamuel.spendradar.ui.theme.barButton
 import com.pef.mendelu.novotnysamuel.spendradar.ui.theme.darkGreen
 import com.pef.mendelu.novotnysamuel.spendradar.ui.theme.textColor
+import kotlinx.coroutines.launch
 
 @Composable
 fun MapScreen(
@@ -117,7 +116,8 @@ fun MapScreen(
             MapScreenContent(
                 paddingValues = it,
                 receipts = receipts,
-                isLoading = isLoading
+                isLoading = isLoading,
+                navigation = navigation
             )}
     )
 
@@ -130,9 +130,11 @@ fun MapScreen(
 fun MapScreenContent(
     paddingValues: PaddingValues,
     receipts: List<Receipt>,
-    isLoading: Boolean
+    isLoading: Boolean,
+    navigation: INavigationRouter
 ) {
 
+    var clusterManager by remember { mutableStateOf<ClusterManager<Receipt>?>(null) }
     val cameraPositionState = rememberCameraPositionState {
         position = CameraPosition.fromLatLngZoom(LatLng(49.2098028, 16.6145219), 10f)
     }
@@ -155,9 +157,9 @@ fun MapScreenContent(
     )
 
     val context = LocalContext.current
-    val markerCache = remember { mutableMapOf<ReceiptCategory, BitmapDescriptor>() }
     var selectedReceipt by remember { mutableStateOf<Receipt?>(null) }
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
+    val scope = rememberCoroutineScope()
 
     Box(
         Modifier
@@ -170,26 +172,30 @@ fun MapScreenContent(
             cameraPositionState = cameraPositionState,
             properties = MapProperties(isMyLocationEnabled = hasLocationPermission)
         ) {
-            receipts.forEach { receipt ->
-                val position = LatLng(receipt.latitude, receipt.longitude)
-                val category = ReceiptCategory.fromStorage(receipt.type)
-                val icon = markerCache.getOrPut(category) {
-                    val baseColor = categoryColor(category)
-                    customMarkerIcon(
-                        context = context,
-                        iconRes = categoryIcon(category),
-                        backgroundColor = baseColor,
-                        iconTint = categoryIconTint(category, baseColor)
-                    )
+            MapEffect { map ->
+                if (clusterManager == null){
+                    clusterManager = ClusterManager<Receipt>(context, map)
                 }
-                Marker(
-                    state = MarkerState(position = position),
-                    icon = icon,
-                    onClick = {
-                        selectedReceipt = receipt
+
+                clusterManager?.apply {
+                    renderer = ClusterMapRenderer(context, map, this)
+                    setOnClusterItemClickListener { item ->
+                        selectedReceipt = item
                         true
                     }
-                )
+                    setOnClusterClickListener { cluster ->
+                        map.animateCamera(CameraUpdateFactory.newLatLngZoom(cluster.position, map.cameraPosition.zoom + 2))
+                        true
+                    }
+                }
+
+                clusterManager?.clearItems()
+                clusterManager?.addItems(receipts)
+                clusterManager?.cluster()
+                map.setOnCameraIdleListener {
+                    clusterManager?.cluster()
+                }
+
             }
         }
         if (isLoading) {
@@ -208,7 +214,17 @@ fun MapScreenContent(
             sheetState = sheetState,
             containerColor = darkGreen
         ) {
-            ReceiptBottomSheetContent(receipt = selectedReceipt!!)
+            ReceiptBottomSheetContent(
+                receipt = selectedReceipt!!,
+                onDetailClick = {
+                    val id = selectedReceipt?.id ?: return@ReceiptBottomSheetContent
+                    scope.launch {
+                        sheetState.hide()
+                        selectedReceipt = null
+                        navigation.navigateToDetail(id)
+                    }
+                }
+            )
         }
     }
 }

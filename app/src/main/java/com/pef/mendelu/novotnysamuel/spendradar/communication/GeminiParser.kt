@@ -1,4 +1,4 @@
-package com.pef.mendelu.novotnysamuel.spendradar.utils
+package com.pef.mendelu.novotnysamuel.spendradar.communication
 
 import android.graphics.Bitmap
 import android.util.Log
@@ -72,14 +72,14 @@ object GeminiParser {
             }
             val response = generativeModel.generateContent(input)
             val jsonString = response.text ?: return null
-            
+
             Log.d("GeminiParser", "Raw response: $jsonString")
-            
+
             var cleanJson = jsonString.trim()
             if (cleanJson.startsWith("```json")) {
                 cleanJson = cleanJson.substringAfter("```json").substringBeforeLast("```")
             }
-            
+
             Gson().fromJson(cleanJson, GeminiReceiptResponse::class.java)
         } catch (e: Exception) {
             Log.e("GeminiParser", "Error calling Gemini: ${e.message}")

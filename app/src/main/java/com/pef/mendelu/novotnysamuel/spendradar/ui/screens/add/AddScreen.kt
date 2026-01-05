@@ -60,6 +60,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.compose.MapsComposeExperimentalApi
 import com.pef.mendelu.novotnysamuel.spendradar.R
 import com.pef.mendelu.novotnysamuel.spendradar.model.ReceiptCategory
+import com.pef.mendelu.novotnysamuel.spendradar.model.ReceiptDraftStore
 import com.pef.mendelu.novotnysamuel.spendradar.navigation.Destination
 import com.pef.mendelu.novotnysamuel.spendradar.navigation.INavigationRouter
 import com.pef.mendelu.novotnysamuel.spendradar.permissions.LocationPermissionHandler
@@ -99,7 +100,7 @@ fun AddScreen(
 
     LaunchedEffect(fromCamera) {
         if (fromCamera) {
-            val draft = com.pef.mendelu.novotnysamuel.spendradar.utils.ReceiptDraftStore.consume()
+            val draft = ReceiptDraftStore.consume()
             if (draft != null) {
                 viewModel.applyDraft(draft)
             }

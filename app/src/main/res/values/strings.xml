@@ -4,6 +4,8 @@
     <string name="welcome_to">Welcome to </string>
     <string name="intro_text_1">Track your expenses without the hassle. Snap a receipt and SpendRadar handles the rest.</string>
     <string name="intro_text_2">Every purchase leaves a trace. SpendRadar maps your spending.</string>
+    <string name="gemini_failed">We couldn\'t analyze the receipt. Try again.</string>
+    <string name="emptylist">Looks quiet here. Let\'s add your first receipt.</string>
     <string name="intro_text_3">You spend. We AI-nalyze. SpendRadar shows you where your money goes.</string>
     <string name="intro2">Map your spendings</string>
     <string name="intro3">AI-first</string>
@@ -32,8 +34,10 @@
     <string name="stats_graph_title">Graph</string>
     <string name="stats_empty">Charts need data. Add expenses to bring this screen to life.</string>
     <string name="receipt_scanner_title">Receipt scanner</string>
-    <string name="gemini_analyzing">Gemini is analyzing the receipt…</string>
-    <string name="emptylist">Looks quiet here. Let’s add your first receipt.</string>
+    <string name="gemini_analyzing">Gemini is analyzing the receipt...</string>
+    <string name="gemini_no_internet">No internet connection. Check your connection and try again.</string>
+    <string name="error_title">Error</string>
+    <string name="action_ok">OK</string>
     <string name="settings">Settings</string>
     <string name="author">Author</string>
     <string name="lang">Select language</string>

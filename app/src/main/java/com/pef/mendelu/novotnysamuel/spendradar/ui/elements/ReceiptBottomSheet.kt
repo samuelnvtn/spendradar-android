@@ -8,6 +8,10 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Info
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -18,10 +22,14 @@ import androidx.compose.ui.unit.dp
 import com.pef.mendelu.novotnysamuel.spendradar.R
 import com.pef.mendelu.novotnysamuel.spendradar.model.Receipt
 import com.pef.mendelu.novotnysamuel.spendradar.model.ReceiptCategory
+import com.pef.mendelu.novotnysamuel.spendradar.ui.theme.accentColor
 import com.pef.mendelu.novotnysamuel.spendradar.ui.theme.textColor
 
 @Composable
-fun ReceiptBottomSheetContent(receipt: Receipt) {
+fun ReceiptBottomSheetContent(
+    receipt: Receipt,
+    onDetailClick: () -> Unit
+) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -45,6 +53,13 @@ fun ReceiptBottomSheetContent(receipt: Receipt) {
                     text = categoryLabel(category),
                     style = MaterialTheme.typography.bodyMedium,
                     color = textColor.copy(alpha = 0.7f)
+                )
+            }
+            IconButton(onClick = onDetailClick) {
+                Icon(
+                    imageVector = Icons.Outlined.Info,
+                    contentDescription = stringResource(R.string.detail),
+                    tint = accentColor
                 )
             }
         }

@@ -1,7 +1,6 @@
-package com.pef.mendelu.novotnysamuel.spendradar.utils
+package com.pef.mendelu.novotnysamuel.spendradar.model
 
 import com.google.android.gms.maps.model.LatLng
-import com.pef.mendelu.novotnysamuel.spendradar.model.ReceiptCategory
 import com.pef.mendelu.novotnysamuel.spendradar.ui.screens.add.AddReceiptItemInput
 import java.time.LocalTime
 

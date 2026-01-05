@@ -3,6 +3,8 @@ package com.pef.mendelu.novotnysamuel.spendradar.di
 import com.pef.mendelu.novotnysamuel.spendradar.database.IReceiptsLocalRepository
 import com.pef.mendelu.novotnysamuel.spendradar.database.ReceiptsDao
 import com.pef.mendelu.novotnysamuel.spendradar.database.ReceiptsLocalRepositoryImpl
+import com.pef.mendelu.novotnysamuel.spendradar.communication.GeminiRemoteRepositoryImpl
+import com.pef.mendelu.novotnysamuel.spendradar.communication.IGeminiRemoteRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -17,5 +19,11 @@ object RepositoryModule {
     @Singleton
     fun provideRepository(dao: ReceiptsDao): IReceiptsLocalRepository {
         return ReceiptsLocalRepositoryImpl(dao)
+    }
+
+    @Provides
+    @Singleton
+    fun provideGeminiRepository(): IGeminiRemoteRepository {
+        return GeminiRemoteRepositoryImpl()
     }
 }

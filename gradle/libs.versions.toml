@@ -22,6 +22,9 @@ gson = "2.10.1"
 googlemap = "2.7.2"
 googlemap_compose = "19.0.0"
 googlemap_foundation = "1.7.8"
+googlemap_utils = "3.19.0"
+googlemap_widgets = "6.12.1"
+googlemap_compose_utils = "6.12.1"
 playServicesLocation = "21.3.0"
 foundation = "1.10.0"
 composeCharts = "0.2.0"
@@ -79,6 +82,10 @@ gson = { group = "com.google.code.gson", name = "gson", version.ref = "gson" }
 googlemap = { group = "com.google.maps.android", name = "maps-compose", version.ref = "googlemap" }
 googlemap-compose = { group = "com.google.android.gms", name = "play-services-maps", version.ref = "googlemap_compose" }
 googlemap-foundation = { group = "androidx.compose.foundation", name = "foundation", version.ref = "googlemap_foundation" }
+googlemap_utils = { group = "com.google.maps.android", name = "android-maps-utils", version.ref = "googlemap_utils" }
+googlemap_widgets = { group = "com.google.maps.android", name = "maps-compose-widgets", version.ref = "googlemap_widgets" }
+googlemap_compose_utils = { group = "com.google.maps.android", name = "maps-compose-utils", version.ref = "googlemap_compose_utils" }
+
 
 play-services-location = { group = "com.google.android.gms", name = "play-services-location", version.ref = "playServicesLocation" }
 androidx-compose-foundation = { group = "androidx.compose.foundation", name = "foundation", version.ref = "foundation" }
