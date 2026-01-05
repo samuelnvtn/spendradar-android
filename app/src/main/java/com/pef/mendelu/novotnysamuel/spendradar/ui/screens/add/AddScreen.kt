@@ -104,7 +104,11 @@ fun AddScreen(
     }
 
     BaseScreen(
-        topBarText = stringResource(R.string.new_receipt),
+        topBarText = if (receiptId != null && receiptId != -1L) {
+            stringResource(R.string.edit_receipt)
+        } else {
+            stringResource(R.string.new_receipt)
+        },
         onBackClick = { navigation.returnBack() },
         bottomBarContent = {
             BottomNavBar(

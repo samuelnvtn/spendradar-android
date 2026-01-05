@@ -25,6 +25,7 @@
     <string name="cz">Czech</string>
     <string name="en">English</string>
     <string name="new_receipt">New entry</string>
+    <string name="edit_receipt">Edit</string>
     <string name="store_name">Store name</string>
     <string name="date">Date</string>
     <string name="time">Time</string>
