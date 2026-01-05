@@ -26,6 +26,7 @@ fun BaseScreen(
     onBackClick: (() -> Unit)? = null,
     showLoading: Boolean = false,
     placeholderScreenContent: PlaceholderScreenContent? = null,
+    showBottomBar: Boolean = true,
     bottomBarContent: @Composable () -> Unit = {},
     floatingActionButton: @Composable () -> Unit = {},
     actions: @Composable RowScope.() -> Unit = {},
@@ -57,9 +58,10 @@ fun BaseScreen(
             )
         },
         bottomBar = {
-            // Používáme tvůj barColor pro konzistenci
-            NavigationBar(containerColor = barColor) {
-                bottomBarContent()
+            if (showBottomBar) {
+                NavigationBar(containerColor = barColor) {
+                    bottomBarContent()
+                }
             }
         },
         floatingActionButton = floatingActionButton

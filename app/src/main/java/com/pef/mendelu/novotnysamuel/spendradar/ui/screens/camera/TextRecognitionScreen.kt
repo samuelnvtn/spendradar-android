@@ -10,10 +10,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.CameraAlt
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -36,7 +34,6 @@ import com.pef.mendelu.novotnysamuel.spendradar.ui.elements.BaseScreen
 import com.pef.mendelu.novotnysamuel.spendradar.ui.elements.CameraComposeView
 import com.pef.mendelu.novotnysamuel.spendradar.utils.TextRecognizer
 import com.pef.mendelu.novotnysamuel.spendradar.ui.theme.accentColor
-import com.pef.mendelu.novotnysamuel.spendradar.ui.theme.textColor
 
 
 @Composable
@@ -56,6 +53,7 @@ fun TextRecognitionScreen(navigation: INavigationRouter) {
     BaseScreen(
         topBarText = stringResource(R.string.receipt_scanner_title),
         onBackClick = { navigation.returnBack() },
+        showBottomBar = false
     ) {
         TextRecognitionScreenContent(
             paddingValues = it,
@@ -124,13 +122,8 @@ fun TextRecognitionScreenContent(
                 enabled = !isLoading && !isCapturing,
                 modifier = Modifier
                     .size(64.dp)
-                    .background(Color.White.copy(alpha = 0.15f), shape = androidx.compose.foundation.shape.CircleShape)
+                    .background(color = accentColor.copy(alpha = 0.55f), shape = CircleShape)
             ) {
-                Icon(
-                    imageVector = Icons.Default.CameraAlt,
-                    contentDescription = "Capture",
-                    tint = Color.White
-                )
             }
         }
     }

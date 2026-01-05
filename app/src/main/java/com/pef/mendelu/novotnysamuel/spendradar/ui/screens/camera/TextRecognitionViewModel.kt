@@ -60,7 +60,7 @@ class TextRecognitionViewModel @Inject constructor(
     }
 
     private fun mapToReceipt(parsed: GeminiParser.GeminiReceiptResponse): Receipt {
-        val items = parsed.items.mapNotNull { item ->
+        val items = (parsed.items ?: emptyList()).mapNotNull { item ->
             val name = item.name?.trim().orEmpty()
             val quantity = item.quantity ?: 1
             val price = item.price ?: return@mapNotNull null
