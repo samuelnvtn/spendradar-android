@@ -1,7 +1,5 @@
 package com.pef.mendelu.novotnysamuel.spendradar.ui.screens.add
 
-import android.content.Context
-import android.location.LocationManager
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -24,7 +22,6 @@ import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -40,7 +37,6 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material3.TimePicker
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.rememberDatePickerState
@@ -51,11 +47,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.runtime.snapshotFlow
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -63,13 +56,8 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
-import com.google.maps.android.compose.GoogleMap
-import com.google.maps.android.compose.MapProperties
-import com.google.maps.android.compose.MapUiSettings
 import com.google.maps.android.compose.MapsComposeExperimentalApi
-import com.google.maps.android.compose.rememberCameraPositionState
 import com.pef.mendelu.novotnysamuel.spendradar.R
 import com.pef.mendelu.novotnysamuel.spendradar.model.ReceiptCategory
 import com.pef.mendelu.novotnysamuel.spendradar.navigation.Destination
@@ -77,20 +65,22 @@ import com.pef.mendelu.novotnysamuel.spendradar.navigation.INavigationRouter
 import com.pef.mendelu.novotnysamuel.spendradar.permissions.LocationPermissionHandler
 import com.pef.mendelu.novotnysamuel.spendradar.ui.elements.BaseScreen
 import com.pef.mendelu.novotnysamuel.spendradar.ui.elements.BottomNavBar
+import com.pef.mendelu.novotnysamuel.spendradar.ui.elements.MapPicker
+import com.pef.mendelu.novotnysamuel.spendradar.ui.elements.categoryLabel
 import com.pef.mendelu.novotnysamuel.spendradar.ui.theme.accentColor
 import com.pef.mendelu.novotnysamuel.spendradar.ui.theme.barButton
 import com.pef.mendelu.novotnysamuel.spendradar.ui.theme.barColor
 import com.pef.mendelu.novotnysamuel.spendradar.ui.theme.basicMargin
 import com.pef.mendelu.novotnysamuel.spendradar.ui.theme.halfMargin
 import com.pef.mendelu.novotnysamuel.spendradar.ui.theme.textColor
+import com.pef.mendelu.novotnysamuel.spendradar.ui.theme.textFieldColors
+import com.pef.mendelu.novotnysamuel.spendradar.utils.areItemsValid
+import com.pef.mendelu.novotnysamuel.spendradar.utils.getLastKnownLocation
 import java.time.Instant
 import java.time.LocalTime
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import java.util.Locale
-import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.filter
-import kotlinx.coroutines.flow.map
 
 @Composable
 fun AddScreen(
@@ -437,95 +427,6 @@ fun AddScreenContent(
     }
 }
 
-@OptIn(MapsComposeExperimentalApi::class)
-@Composable
-private fun MapPicker(
-    location: LatLng,
-    hasLocationPermission: Boolean,
-    onLocationChange: (LatLng) -> Unit,
-    onMapInteractionChange: (Boolean) -> Unit
-) {
-    val cameraPositionState = rememberCameraPositionState {
-        position = CameraPosition.fromLatLngZoom(location, 15f)
-    }
-
-    LaunchedEffect(location) {
-        cameraPositionState.position = CameraPosition.fromLatLngZoom(location, 15f)
-    }
-
-    LaunchedEffect(cameraPositionState) {
-        snapshotFlow { cameraPositionState.position.target }
-            .map { target -> target to cameraPositionState.isMoving }
-            .distinctUntilChanged()
-            .filter { (_, isMoving) -> !isMoving }
-            .map { (target, _) -> target }
-            .collect { target ->
-                if (target != location) {
-                    onLocationChange(target)
-                }
-            }
-    }
-
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(200.dp)
-            .clip(RoundedCornerShape(20.dp))
-            .pointerInput(Unit) {
-                awaitPointerEventScope {
-                    while (true) {
-                        val event = awaitPointerEvent()
-                        val pressed = event.changes.any { it.pressed }
-                        onMapInteractionChange(pressed)
-                    }
-                }
-            }
-    ) {
-        GoogleMap(
-            modifier = Modifier.fillMaxSize(),
-            cameraPositionState = cameraPositionState,
-            uiSettings = MapUiSettings(
-                zoomControlsEnabled = false,
-                mapToolbarEnabled = true,
-                myLocationButtonEnabled = true,
-                scrollGesturesEnabled = true,
-                zoomGesturesEnabled = true,
-                tiltGesturesEnabled = true,
-                rotationGesturesEnabled = true
-            ),
-            properties = MapProperties(isMyLocationEnabled = hasLocationPermission)
-        )
-        Icon(
-            imageVector = Icons.Default.LocationOn,
-            contentDescription = null,
-            tint = accentColor,
-            modifier = Modifier
-                .align(Alignment.Center)
-                .size(36.dp)
-        )
-    }
-}
-
-@Composable
-private fun textFieldColors() = TextFieldDefaults.colors(
-    focusedContainerColor = barColor,
-    unfocusedContainerColor = barColor,
-    focusedTextColor = textColor,
-    unfocusedTextColor = textColor,
-    focusedIndicatorColor = accentColor,
-    unfocusedIndicatorColor = barButton,
-    cursorColor = accentColor
-)
-
-private fun getLastKnownLocation(context: Context): android.location.Location? {
-    val locationManager = context.getSystemService(Context.LOCATION_SERVICE) as? LocationManager
-        ?: return null
-    val providers = listOf(LocationManager.GPS_PROVIDER, LocationManager.NETWORK_PROVIDER)
-    return providers.firstNotNullOfOrNull { provider ->
-        runCatching { locationManager.getLastKnownLocation(provider) }.getOrNull()
-    }
-}
-
 private fun isDefaultLocation(location: LatLng): Boolean {
     val defaultLat = 49.2098028
     val defaultLng = 16.6145219
@@ -533,41 +434,4 @@ private fun isDefaultLocation(location: LatLng): Boolean {
         kotlin.math.abs(location.longitude - defaultLng) < 0.0001
 }
 
-private fun isValidQuantity(value: String): Boolean {
-    val quantity = value.trim().toIntOrNull() ?: return false
-    return quantity > 0
-}
 
-private fun isValidPrice(value: String): Boolean {
-    val normalized = value.trim().replace(",", ".")
-    if (normalized.isBlank()) return false
-    return try {
-        val decimal = java.math.BigDecimal(normalized)
-        decimal.multiply(java.math.BigDecimal(100))
-            .setScale(0, java.math.RoundingMode.HALF_UP)
-            .toLong() > 0
-    } catch (ex: NumberFormatException) {
-        false
-    }
-}
-
-private fun areItemsValid(items: List<AddReceiptItemInput>): Boolean {
-    if (items.isEmpty()) return false
-    return items.all { item ->
-        item.name.trim().isNotBlank() &&
-            isValidQuantity(item.quantity) &&
-            isValidPrice(item.price)
-    }
-}
-
-@Composable
-private fun categoryLabel(category: ReceiptCategory): String {
-    return when (category) {
-        ReceiptCategory.FOOD_DRINK -> stringResource(R.string.category_food_drink)
-        ReceiptCategory.GROCERIES -> stringResource(R.string.category_groceries)
-        ReceiptCategory.PHARMACY -> stringResource(R.string.category_pharmacy)
-        ReceiptCategory.ELECTRONICS -> stringResource(R.string.category_electronics)
-        ReceiptCategory.FASHION -> stringResource(R.string.category_fashion)
-        ReceiptCategory.OTHER -> stringResource(R.string.category_other)
-    }
-}

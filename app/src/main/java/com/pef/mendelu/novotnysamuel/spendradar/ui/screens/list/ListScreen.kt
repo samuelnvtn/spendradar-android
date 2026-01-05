@@ -1,23 +1,17 @@
 package com.pef.mendelu.novotnysamuel.spendradar.ui.screens.list
 
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.annotation.DrawableRes
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material3.Divider
@@ -33,13 +27,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -51,9 +41,10 @@ import com.pef.mendelu.novotnysamuel.spendradar.ui.elements.AddReceiptDialog
 import com.pef.mendelu.novotnysamuel.spendradar.ui.elements.BaseScreen
 import com.pef.mendelu.novotnysamuel.spendradar.ui.elements.BottomNavBar
 import com.pef.mendelu.novotnysamuel.spendradar.ui.elements.PlaceholderScreenContent
+import com.pef.mendelu.novotnysamuel.spendradar.ui.elements.ReceiptRow
+import com.pef.mendelu.novotnysamuel.spendradar.ui.elements.formatCurrency
 import com.pef.mendelu.novotnysamuel.spendradar.ui.theme.accentColor
 import com.pef.mendelu.novotnysamuel.spendradar.ui.theme.barButton
-import com.pef.mendelu.novotnysamuel.spendradar.ui.theme.barColor
 import com.pef.mendelu.novotnysamuel.spendradar.ui.theme.basicMargin
 import com.pef.mendelu.novotnysamuel.spendradar.ui.theme.darkGreen
 import com.pef.mendelu.novotnysamuel.spendradar.ui.theme.halfMargin
@@ -61,7 +52,6 @@ import com.pef.mendelu.novotnysamuel.spendradar.ui.theme.textColor
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import java.util.Locale
-import kotlin.math.abs
 
 @Composable
 fun ListScreen(
@@ -225,112 +215,4 @@ private fun DateHeader(text: String) {
         style = MaterialTheme.typography.titleMedium,
         modifier = Modifier.padding(top = 8.dp, bottom = 4.dp)
     )
-}
-
-@Composable
-private fun ReceiptRow(receipt: Receipt) {
-    val category = receipt.type ?: "OTHER"
-    val icon = categoryIcon(category)
-    val iconColor = categoryColor(category)
-
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(vertical = 6.dp),
-        verticalAlignment = Alignment.CenterVertically
-    ) {
-        Surface(
-            shape = RoundedCornerShape(24.dp),
-            color = iconColor,
-            modifier = Modifier.size(48.dp)
-        ) {
-            Box(contentAlignment = Alignment.Center) {
-                Icon(
-                    painter = painterResource(id = icon),
-                    contentDescription = null,
-                    tint = iconTint(category, iconColor)
-                )
-            }
-        }
-
-        Spacer(modifier = Modifier.width(12.dp))
-
-        Column(modifier = Modifier.weight(1f)) {
-            Text(
-                text = receipt.storeName,
-                color = textColor,
-                style = MaterialTheme.typography.titleMedium,
-                maxLines = 1,
-
-            )
-            Text(
-                text = categoryLabel(category),
-                color = textColor.copy(alpha = 0.7f),
-                style = MaterialTheme.typography.bodySmall
-            )
-        }
-
-        Text(
-            text = "-${formatCurrency(receipt.totalPrice)}",
-            color = textColor,
-            style = MaterialTheme.typography.titleMedium
-        )
-    }
-}
-
-@Composable
-private fun categoryLabel(type: String): String {
-    return when (type) {
-        "FOOD_DRINK" -> stringResource(R.string.category_food_drink)
-        "GROCERIES" -> stringResource(R.string.category_groceries)
-        "PHARMACY" -> stringResource(R.string.category_pharmacy)
-        "ELECTRONICS" -> stringResource(R.string.category_electronics)
-        "FASHION" -> stringResource(R.string.category_fashion)
-        else -> stringResource(R.string.category_other)
-    }
-}
-
-@DrawableRes
-private fun categoryIcon(type: String) = when (type) {
-    "FOOD_DRINK" -> R.drawable.fork
-    "GROCERIES" -> R.drawable.shop
-    "PHARMACY" -> R.drawable.medic
-    "ELECTRONICS" -> R.drawable.electro
-    "FASHION" -> R.drawable.fashion
-    else -> R.drawable.other
-}
-
-private fun categoryColor(type: String) = when (type) {
-    "FOOD_DRINK" -> Color(0xFFB07D22)
-    "GROCERIES" -> Color(0xFF1F8F4E)
-    "PHARMACY" -> Color(0xFF2A7DA0)
-    "ELECTRONICS" -> Color(0xFF4F6CE2)
-    "FASHION" -> Color(0xFF8A3E9E)
-    else -> Color(0xFF6E6E6E)
-}
-
-@Composable
-private fun iconTint(type: String, baseColor: Color): Color {
-    return when (type) {
-        "FOOD_DRINK" -> Color(0xFFEBBF11)
-        "GROCERIES" -> accentColor
-        else -> lighten(baseColor, 0.55f)
-    }
-}
-
-private fun lighten(color: Color, factor: Float): Color {
-    val clamped = factor.coerceIn(0f, 1f)
-    return Color(
-        red = color.red + (1f - color.red) * clamped,
-        green = color.green + (1f - color.green) * clamped,
-        blue = color.blue + (1f - color.blue) * clamped,
-        alpha = color.alpha
-    )
-}
-
-private fun formatCurrency(value: Long): String {
-    val absValue = abs(value)
-    val crowns = absValue / 100
-    val cents = absValue % 100
-    return String.format(Locale("cs", "CZ"), "%d,%02d Kč", crowns, cents)
 }
