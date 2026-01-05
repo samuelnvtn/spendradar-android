@@ -12,7 +12,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.pef.mendelu.novotnysamuel.spendradar.R
 import com.pef.mendelu.novotnysamuel.spendradar.model.Receipt
 import com.pef.mendelu.novotnysamuel.spendradar.model.ReceiptCategory
 import com.pef.mendelu.novotnysamuel.spendradar.ui.theme.textColor
@@ -51,7 +53,7 @@ fun ReceiptRow(
         }
 
         Text(
-            text = "-${formatCurrency(receipt.totalPrice)}",
+            text = "-${formatCurrency(receipt.totalPrice, stringResource(R.string.currency_czk))}",
             color = textColor,
             style = MaterialTheme.typography.titleMedium
         )

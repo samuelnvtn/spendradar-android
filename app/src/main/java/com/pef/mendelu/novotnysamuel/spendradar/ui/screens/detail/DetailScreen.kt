@@ -171,7 +171,7 @@ fun DetailScreenContent(
                     )
                     Spacer(modifier = Modifier.height(6.dp))
                     Text(
-                        text = "-${formatCurrency(receipt.totalPrice)}",
+                        text = "-${formatCurrency(receipt.totalPrice, stringResource(R.string.currency_czk))}",
                         style = MaterialTheme.typography.headlineMedium,
                         color = textColor
                     )
@@ -252,7 +252,7 @@ fun DetailScreenContent(
                                 modifier = Modifier.padding(end = 12.dp)
                             )
                             Text(
-                                text = formatCurrency(item.pricePerUnit),
+                                text = formatCurrency(item.pricePerUnit, stringResource(R.string.currency_czk)),
                                 style = MaterialTheme.typography.bodyMedium,
                                 color = textColor
                             )

@@ -204,7 +204,7 @@ private fun MonthlySummaryCard(total: Long) {
             )
             Spacer(modifier = Modifier.height(8.dp))
             Text(
-                text = "-${formatCurrency(total)}",
+                text = "-${formatCurrency(total, stringResource(R.string.currency_czk))}",
                 color = textColor,
                 style = MaterialTheme.typography.headlineMedium
             )

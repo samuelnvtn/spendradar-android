@@ -70,7 +70,7 @@ fun ReceiptBottomSheetContent(
             color = textColor.copy(alpha = 0.7f)
         )
         Text(
-            text = formatCurrency(receipt.totalPrice),
+            text = formatCurrency(receipt.totalPrice, stringResource(R.string.currency_czk)),
             style = MaterialTheme.typography.titleMedium,
             color = textColor
         )
@@ -101,7 +101,7 @@ fun ReceiptBottomSheetContent(
                         )
                     }
                     Text(
-                        text = formatCurrency(item.pricePerUnit),
+                        text = formatCurrency(item.pricePerUnit, stringResource(R.string.currency_czk)),
                         style = MaterialTheme.typography.bodyMedium,
                         color = textColor
                     )

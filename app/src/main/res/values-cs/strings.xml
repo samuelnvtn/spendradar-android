@@ -9,6 +9,8 @@
     <string name="emptylist">Je tu nějak prázdno. Začni oskenováním účtenky.</string>
     <string name="settings">Nastavení</string>
     <string name="map">Mapa</string>
+    <string name="map_no_internet">Mapa není bez internetu k dispozici. Připojte se a zkuste to znovu.</string>
+    <string name="currency_czk">Kč</string>
     <string name="author">Autor</string>
     <string name="lang">Vyberte jazyk</string>
     <string name="cz">Čeština</string>

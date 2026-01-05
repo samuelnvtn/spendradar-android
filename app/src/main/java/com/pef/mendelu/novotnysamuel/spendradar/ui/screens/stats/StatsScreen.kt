@@ -157,7 +157,7 @@ fun StatsScreenContent(
                 ) {
                     StatLabelValue(
                         label = statsTotalLabel(state.range),
-                        value = formatCurrency(state.summary.totalSpent)
+                        value = formatCurrency(state.summary.totalSpent, stringResource(R.string.currency_czk))
                     )
                     StatLabelValue(
                         label = stringResource(R.string.stats_most_visited),
@@ -216,7 +216,7 @@ fun StatsScreenContent(
                             color = textColor.copy(alpha = 0.7f)
                         )
                         Text(
-                            text = formatCurrency(state.summary.totalSpent),
+                            text = formatCurrency(state.summary.totalSpent, stringResource(R.string.currency_czk)),
                             style = MaterialTheme.typography.titleMedium,
                             color = textColor,
                             fontWeight = FontWeight.SemiBold

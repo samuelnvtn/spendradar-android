@@ -1,11 +1,10 @@
 package com.pef.mendelu.novotnysamuel.spendradar.ui.elements
 
-import java.util.Locale
 import kotlin.math.abs
 
-fun formatCurrency(value: Long): String {
+fun formatCurrency(value: Long, currencySuffix: String): String {
     val absValue = abs(value)
     val crowns = absValue / 100
     val cents = absValue % 100
-    return String.format(Locale("cs", "CZ"), "%d,%02d Kč", crowns, cents)
+    return String.format("%d,%02d %s", crowns, cents, currencySuffix)
 }

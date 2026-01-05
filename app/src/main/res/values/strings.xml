@@ -19,6 +19,8 @@
     <string name="cancel">Cancel</string>
     <string name="receipts">Dashboard</string>
     <string name="map">Map</string>
+    <string name="map_no_internet">Map tiles are unavailable offline. Connect to the internet to view the map.</string>
+    <string name="currency_czk">CZK</string>
     <string name="stats_title">Stats</string>
     <string name="stats_tab_day">Day</string>
     <string name="stats_tab_week">Week</string>
