@@ -10,6 +10,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.pef.mendelu.novotnysamuel.spendradar.ui.screens.TestScreen
 import com.pef.mendelu.novotnysamuel.spendradar.ui.screens.add.AddScreen
+import com.pef.mendelu.novotnysamuel.spendradar.ui.screens.camera.TextRecognitionScreen
 import com.pef.mendelu.novotnysamuel.spendradar.ui.screens.detail.DetailScreen
 import com.pef.mendelu.novotnysamuel.spendradar.ui.screens.list.ListScreen
 import com.pef.mendelu.novotnysamuel.spendradar.ui.screens.map.MapScreen
@@ -39,20 +40,34 @@ fun NavGraph(
             StatsScreen(navRouter)
         }
 
-        composable(route = Destination.AddScreen.route) {
-            AddScreen(navRouter)
+        composable(
+            route = "${Destination.AddScreen.route}?fromCamera={fromCamera}",
+            arguments = listOf(
+                navArgument("fromCamera") {
+                    type = NavType.BoolType
+                    defaultValue = false
+                }
+            )
+        ) {
+            val fromCamera = it.arguments?.getBoolean("fromCamera") ?: false
+            AddScreen(navRouter, fromCamera = fromCamera)
         }
 
-        composable(route = "${Destination.AddScreen.route}/{id}",
+        composable(route = "${Destination.AddScreen.route}/{id}?fromCamera={fromCamera}",
             arguments = listOf(
                 navArgument("id"){
                     type = NavType.LongType
                     defaultValue = -1L
+                },
+                navArgument("fromCamera") {
+                    type = NavType.BoolType
+                    defaultValue = false
                 }
             )
         ){
             val id = it.arguments?.getLong("id")
-            AddScreen(navRouter, id)
+            val fromCamera = it.arguments?.getBoolean("fromCamera") ?: false
+            AddScreen(navRouter, id, fromCamera)
         }
 
         composable(route = "${Destination.DetailScreen.route}/{id}",
@@ -75,6 +90,10 @@ fun NavGraph(
 
         composable(route = Destination.SettingsScreen.route) {
             SettingsScreen(navRouter)
+        }
+
+        composable(route = Destination.TextRecognitionScreen.route) {
+            TextRecognitionScreen(navRouter)
         }
 /*
         composable(route = Destination.AddEditBeerScreen.route) {

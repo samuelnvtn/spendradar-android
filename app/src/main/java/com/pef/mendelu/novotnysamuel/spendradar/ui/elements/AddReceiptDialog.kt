@@ -53,7 +53,7 @@ fun AddReceiptDialog(
                     label = stringResource(R.string.scan_camera),
                     onClick = {
                         onDismissRequest()
-                        // TODO: Camera logic
+                        navigation.navigateToTextRecognition()
                     }
                 )
 /*
@@ -71,7 +71,7 @@ fun AddReceiptDialog(
                     label = stringResource(R.string.manual_entry),
                     onClick = {
                         onDismissRequest()
-                        navigation.navigateToAdd()
+                        navigation.navigateToAdd(fromCamera = false)
                     }
                 )
 

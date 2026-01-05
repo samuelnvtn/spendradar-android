@@ -92,7 +92,7 @@ fun DetailScreen(
             IconButton(onClick = {
                 val editId = (state.value as? DetailUIState.Success)?.receipt?.id
                 if (editId != null) {
-                    navigation.navigateToAdd(editId)
+                    navigation.navigateToAdd(editId, fromCamera = false)
                 }
             }) {
                 Icon(

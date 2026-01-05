@@ -8,7 +8,7 @@ interface IReceiptsLocalRepository {
 
     suspend fun getReceiptById(id: Long): Receipt?
 
-    suspend fun insertReceipt(receipt: Receipt)
+    suspend fun insertReceipt(receipt: Receipt): Long
 
     suspend fun deleteReceipt(receipt: Receipt)
 

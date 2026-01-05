@@ -1,4 +1,4 @@
-package cz.pef.mendelu.mlkit2024.ui.elements
+package com.pef.mendelu.novotnysamuel.spendradar.ui.elements
 
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageAnalysis

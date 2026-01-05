@@ -85,7 +85,8 @@ import java.util.Locale
 @Composable
 fun AddScreen(
     navigation: INavigationRouter,
-    receiptId: Long? = null
+    receiptId: Long? = null,
+    fromCamera: Boolean = false
 ) {
     val viewModel = hiltViewModel<AddViewModel>()
     val state by viewModel.uiState.collectAsStateWithLifecycle()
@@ -98,7 +99,11 @@ fun AddScreen(
 
     LaunchedEffect(state.saveCompleted) {
         if (state.saveCompleted) {
-            navigation.returnBack()
+            if (fromCamera) {
+                navigation.navigateToList()
+            } else {
+                navigation.returnBack()
+            }
             viewModel.onSaveHandled()
         }
     }

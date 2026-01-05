@@ -7,11 +7,12 @@ class NavigationRouterImpl(private val navController: NavController) : INavigati
         navController.navigate(Destination.ListScreen.route)
     }
 
-    override fun navigateToAdd(id: Long?) {
+    override fun navigateToAdd(id: Long?, fromCamera: Boolean) {
+        val fromCameraParam = "fromCamera=$fromCamera"
         if (id == null) {
-            navController.navigate(Destination.AddScreen.route)
+            navController.navigate("${Destination.AddScreen.route}?$fromCameraParam")
         } else {
-            navController.navigate("${Destination.AddScreen.route}/${id}")
+            navController.navigate("${Destination.AddScreen.route}/${id}?$fromCameraParam")
         }
     }
 
@@ -25,6 +26,10 @@ class NavigationRouterImpl(private val navController: NavController) : INavigati
 
     override fun navigateToDetail(id: Long) {
         navController.navigate("${Destination.DetailScreen.route}/${id}")
+    }
+
+    override fun navigateToTextRecognition() {
+        navController.navigate(Destination.TextRecognitionScreen.route)
     }
 
     override fun navigateToSettings() {

@@ -13,8 +13,8 @@ class ReceiptsLocalRepositoryImpl(private val receiptsDao: ReceiptsDao) : IRecei
         return receiptsDao.getById(id)
     }
 
-    override suspend fun insertReceipt(receipt: Receipt) {
-        receiptsDao.insertReceipt(receipt)
+    override suspend fun insertReceipt(receipt: Receipt): Long {
+        return receiptsDao.insertReceipt(receipt)
     }
 
     override suspend fun deleteReceipt(receipt: Receipt) {
