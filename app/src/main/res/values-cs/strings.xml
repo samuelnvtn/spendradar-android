@@ -48,6 +48,6 @@
     <string name="error_item_quantity">Zadejte platný počet</string>
     <string name="error_item_price">Zadejte platnou cenu</string>
     <string name="error_items_required">Položky nesmí být prázdné</string>
-
-
+    <string name="delete_entry">Smazat záznam</string>
+    <string name="detail">Detail</string>
 </resources>

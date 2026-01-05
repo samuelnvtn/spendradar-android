@@ -7,12 +7,20 @@ class NavigationRouterImpl(private val navController: NavController) : INavigati
         navController.navigate(Destination.ListScreen.route)
     }
 
-    override fun navigateToAdd() {
-        navController.navigate(Destination.AddScreen.route)
+    override fun navigateToAdd(id: Long?) {
+        if (id == null) {
+            navController.navigate(Destination.AddScreen.route)
+        } else {
+            navController.navigate("${Destination.AddScreen.route}/${id}")
+        }
     }
 
     override fun navigateToMap() {
         navController.navigate(Destination.MapScreen.route)
+    }
+
+    override fun navigateToDetail(id: Long) {
+        navController.navigate("${Destination.DetailScreen.route}/${id}")
     }
 
     override fun navigateToSettings() {

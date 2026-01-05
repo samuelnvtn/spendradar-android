@@ -14,12 +14,13 @@ import javax.inject.Inject
 class MapViewModel  @Inject constructor(private val repository: IReceiptsLocalRepository) : ViewModel() {
 
     private val _mapUIState: MutableStateFlow<MapUIState> =
-        MutableStateFlow(value = MapUIState.Default())
+        MutableStateFlow(value = MapUIState.Loading)
 
     val mapUIState = _mapUIState.asStateFlow()
 
     fun loadReceipts(){
         viewModelScope.launch {
+            _mapUIState.update { MapUIState.Loading }
             repository.getAllReceipts().collect { receipts ->
                 _mapUIState.update {
                     MapUIState.Success(receipts)

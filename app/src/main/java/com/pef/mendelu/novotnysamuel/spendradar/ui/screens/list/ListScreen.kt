@@ -119,7 +119,8 @@ fun ListScreen(
         ListScreenContent(
             paddingValues = it,
             monthlyTotal = monthlyTotal,
-            receipts = receipts
+            receipts = receipts,
+            navigation = navigation
         )
     }
 }
@@ -128,8 +129,9 @@ fun ListScreen(
 fun ListScreenContent(
     paddingValues: PaddingValues,
     monthlyTotal: Long,
-    receipts: List<Receipt>
-){
+    receipts: List<Receipt>,
+    navigation: INavigationRouter
+    ){
     val items = remember(receipts) { buildListItems(receipts) }
 
     Column(
@@ -150,7 +152,10 @@ fun ListScreenContent(
                 when (item) {
                     is ListItem.DateHeader -> DateHeader(text = item.label)
                     is ListItem.ReceiptRow -> {
-                        ReceiptRow(receipt = item.receipt)
+                        ReceiptRow(
+                            receipt = item.receipt, onRowClick = {
+                                navigation.navigateToDetail(item.receipt.id!!)
+                            })
                         Divider(color = barButton.copy(alpha = 0.4f))
                     }
                 }
@@ -199,7 +204,7 @@ private fun MonthlySummaryCard(total: Long) {
             )
             Spacer(modifier = Modifier.height(8.dp))
             Text(
-                text = formatCurrency(total),
+                text = "-${formatCurrency(total)}",
                 color = textColor,
                 style = MaterialTheme.typography.headlineMedium
             )

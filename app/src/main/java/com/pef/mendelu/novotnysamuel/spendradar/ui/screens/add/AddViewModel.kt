@@ -19,6 +19,8 @@ import java.time.Instant
 import java.time.LocalDateTime
 import java.time.LocalTime
 import java.time.ZoneId
+import java.time.ZonedDateTime
+import java.util.Locale
 import javax.inject.Inject
 
 @HiltViewModel
@@ -99,18 +101,24 @@ class AddViewModel @Inject constructor(
             val timestamp = resolveTimestamp(state.dateMillis, state.time)
 
             val receipt = Receipt(
+                id = state.receiptId,
                 storeName = state.storeName.trim().ifBlank { "Unknown store" },
                 type = state.category.storageValue,
                 latitude = state.location.latitude,
                 longitude = state.location.longitude,
                 timestamp = timestamp,
                 totalPrice = totalPrice,
-                currency = "CZK",
+                currency = state.currency,
                 items = items
             )
 
-            repository.insertReceipt(receipt)
-            Log.d("AddViewModel", "Saved receipt: $receipt")
+            if (state.receiptId == null) {
+                repository.insertReceipt(receipt)
+                Log.d("AddViewModel", "Saved receipt: $receipt")
+            } else {
+                repository.updateReceipt(receipt)
+                Log.d("AddViewModel", "Updated receipt: $receipt")
+            }
             _uiState.update { it.copy(isSaving = false, saveCompleted = true) }
         }
     }
@@ -138,6 +146,33 @@ class AddViewModel @Inject constructor(
         return LocalDateTime.of(date, time).atZone(ZoneId.systemDefault()).toInstant()
     }
 
+    fun loadReceipt(id: Long) {
+        if (_uiState.value.receiptId == id) return
+        viewModelScope.launch {
+            val receipt = repository.getReceiptById(id) ?: return@launch
+            val zoned = ZonedDateTime.ofInstant(receipt.timestamp, ZoneId.systemDefault())
+            _uiState.update {
+                it.copy(
+                    receiptId = receipt.id,
+                    storeName = receipt.storeName,
+                    dateMillis = receipt.timestamp.toEpochMilli(),
+                    time = zoned.toLocalTime(),
+                    location = LatLng(receipt.latitude, receipt.longitude),
+                    category = ReceiptCategory.fromStorage(receipt.type),
+                    items = receipt.items.map { item ->
+                        AddReceiptItemInput(
+                            name = item.itemName,
+                            quantity = item.quantity.toString(),
+                            price = formatPriceForInput(item.pricePerUnit)
+                        )
+                    },
+                    currency = receipt.currency,
+                    saveCompleted = false
+                )
+            }
+        }
+    }
+
     private fun parsePriceToCents(value: String): Long? {
         val normalized = value.trim()
             .replace(",", ".")
@@ -148,5 +183,12 @@ class AddViewModel @Inject constructor(
         } catch (ex: NumberFormatException) {
             null
         }
+    }
+
+    private fun formatPriceForInput(value: Long): String {
+        val absValue = kotlin.math.abs(value)
+        val crowns = absValue / 100
+        val cents = absValue % 100
+        return String.format(Locale("cs", "CZ"), "%d,%02d", crowns, cents)
     }
 }

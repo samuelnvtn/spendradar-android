@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Settings
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
@@ -20,6 +21,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -70,6 +72,7 @@ fun MapScreen(
     }
 
     val receipts = (state.value as? MapUIState.Success)?.receipts.orEmpty()
+    val isLoading = state.value is MapUIState.Loading
 
     if (showDialog) {
         AddReceiptDialog(
@@ -113,7 +116,8 @@ fun MapScreen(
         content = {
             MapScreenContent(
                 paddingValues = it,
-                receipts = receipts
+                receipts = receipts,
+                isLoading = isLoading
             )}
     )
 
@@ -125,7 +129,8 @@ fun MapScreen(
 @Composable
 fun MapScreenContent(
     paddingValues: PaddingValues,
-    receipts: List<Receipt>
+    receipts: List<Receipt>,
+    isLoading: Boolean
 ) {
 
     val cameraPositionState = rememberCameraPositionState {
@@ -185,6 +190,14 @@ fun MapScreenContent(
                         true
                     }
                 )
+            }
+        }
+        if (isLoading) {
+            Box(
+                modifier = Modifier.fillMaxSize(),
+                contentAlignment = Alignment.Center
+            ) {
+                CircularProgressIndicator(color = accentColor)
             }
         }
     }

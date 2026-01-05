@@ -1,5 +1,6 @@
 package com.pef.mendelu.novotnysamuel.spendradar.ui.elements
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -17,13 +18,17 @@ import com.pef.mendelu.novotnysamuel.spendradar.model.ReceiptCategory
 import com.pef.mendelu.novotnysamuel.spendradar.ui.theme.textColor
 
 @Composable
-fun ReceiptRow(receipt: Receipt) {
+fun ReceiptRow(
+    receipt: Receipt,
+    onRowClick: () -> Unit
+) {
     val category = ReceiptCategory.fromStorage(receipt.type)
 
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(vertical = 6.dp),
+            .padding(vertical = 6.dp)
+            .clickable(onClick = onRowClick),
         verticalAlignment = Alignment.CenterVertically
     ) {
         CategoryIconBadge(category = category, size = 48.dp)

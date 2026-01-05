@@ -84,10 +84,17 @@ import java.util.Locale
 
 @Composable
 fun AddScreen(
-    navigation: INavigationRouter
+    navigation: INavigationRouter,
+    receiptId: Long? = null
 ) {
     val viewModel = hiltViewModel<AddViewModel>()
     val state by viewModel.uiState.collectAsStateWithLifecycle()
+
+    LaunchedEffect(receiptId) {
+        if (receiptId != null && receiptId != -1L) {
+            viewModel.loadReceipt(receiptId)
+        }
+    }
 
     LaunchedEffect(state.saveCompleted) {
         if (state.saveCompleted) {
@@ -198,8 +205,12 @@ fun AddScreenContent(
         onPermissionDenied = { hasLocationPermission = false }
     )
 
-    LaunchedEffect(hasLocationPermission) {
-        if (hasLocationPermission && !locationInitialized && isDefaultLocation(state.location)) {
+    LaunchedEffect(hasLocationPermission, state.receiptId, state.location) {
+        if (hasLocationPermission &&
+            state.receiptId == null &&
+            !locationInitialized &&
+            isDefaultLocation(state.location)
+        ) {
             val location = getLastKnownLocation(context)
             if (location != null) {
                 actions.onLocationChange(LatLng(location.latitude, location.longitude))
@@ -433,5 +444,3 @@ private fun isDefaultLocation(location: LatLng): Boolean {
     return kotlin.math.abs(location.latitude - defaultLat) < 0.0001 &&
         kotlin.math.abs(location.longitude - defaultLng) < 0.0001
 }
-
-

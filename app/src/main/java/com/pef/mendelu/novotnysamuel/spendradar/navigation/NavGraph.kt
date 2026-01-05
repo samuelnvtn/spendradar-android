@@ -10,6 +10,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.pef.mendelu.novotnysamuel.spendradar.ui.screens.TestScreen
 import com.pef.mendelu.novotnysamuel.spendradar.ui.screens.add.AddScreen
+import com.pef.mendelu.novotnysamuel.spendradar.ui.screens.detail.DetailScreen
 import com.pef.mendelu.novotnysamuel.spendradar.ui.screens.list.ListScreen
 import com.pef.mendelu.novotnysamuel.spendradar.ui.screens.map.MapScreen
 import com.pef.mendelu.novotnysamuel.spendradar.ui.screens.settings.SettingsScreen
@@ -35,6 +36,32 @@ fun NavGraph(
 
         composable(route = Destination.AddScreen.route) {
             AddScreen(navRouter)
+        }
+
+        composable(route = "${Destination.AddScreen.route}/{id}",
+            arguments = listOf(
+                navArgument("id"){
+                    type = NavType.LongType
+                    defaultValue = -1L
+                }
+            )
+        ){
+            val id = it.arguments?.getLong("id")
+            AddScreen(navRouter, id)
+        }
+
+        composable(route = "${Destination.DetailScreen.route}/{id}",
+            arguments = listOf(
+                navArgument("id"){
+                    type = NavType.LongType
+                    defaultValue = -1L
+                }
+            )
+        ){
+            val id = it.arguments?.getLong("id")
+            if (id != null) {
+                DetailScreen(navRouter, id)
+            }
         }
 
         composable(route = Destination.TestScreen.route) {

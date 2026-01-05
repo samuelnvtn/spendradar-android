@@ -55,4 +55,6 @@
     <string name="error_item_quantity">Enter valid quantity</string>
     <string name="error_item_price">Enter valid price</string>
     <string name="error_items_required">Items must not be empty</string>
+    <string name="delete_entry">Delete entry</string>
+    <string name="detail">Detail</string>
 </resources>

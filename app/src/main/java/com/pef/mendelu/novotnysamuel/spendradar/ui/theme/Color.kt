@@ -18,6 +18,8 @@ val darkBackground = Color(0xFF16201D)
 val lightButton = Color(0xFF156739)
 
 val darkGreen = Color(0xFF1A2C23)
+val ultraGreen = Color(0xFF1A2C23)
+
 
 val accentColor = Color(0xFF11EB6E)
 
