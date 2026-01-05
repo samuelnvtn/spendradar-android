@@ -2,8 +2,6 @@
 <resources>
     <string name="app_name">SpendRadar</string>
     <string name="welcome_to">Vítejte v aplikaci</string>
-    <string name="intro_text_1">This is the best app for smart tracking of your expenses.</string>
-    <string name="intro_text_2">The app is written using Compose. Enjoy!!!!!!!</string>
     <string name="skip">Přeskočit</string>
     <string name="continue_to_app">Pokračovat</string>
     <string name="list">Přehled</string>
@@ -63,7 +61,6 @@
     <string name="stats_most_visited">Nejnavštěvovanější obchod</string>
     <string name="stats_top_spend">Obchod s největší útratou</string>
     <string name="stats_graph_title">Graf</string>
-    <string name="stats_empty">No data</string>
     <string name="add_receipt">Přidat nový záznam</string>
     <string name="scan_camera">Kamera</string>
     <string name="scan_gallery">Galerie</string>
@@ -72,5 +69,7 @@
     <string name="intro_text_3">Vy utrácíte. My AInalyzujeme. SpendRadar vám ukáže, kam jdou vaše peníze.</string>
     <string name="intro2">Mapujte své útraty</string>
     <string name="intro3">S využitím AI</string>
+    <string name="stats_empty">Grafy potřebují data. Přidejte výdaje a my tuto obrazovku přivedeme k životu .</string>
+
 
 </resources>

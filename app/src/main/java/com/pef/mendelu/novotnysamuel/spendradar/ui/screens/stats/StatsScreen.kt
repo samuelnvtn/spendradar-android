@@ -38,6 +38,7 @@ import com.pef.mendelu.novotnysamuel.spendradar.navigation.Destination
 import com.pef.mendelu.novotnysamuel.spendradar.navigation.INavigationRouter
 import com.pef.mendelu.novotnysamuel.spendradar.ui.elements.BaseScreen
 import com.pef.mendelu.novotnysamuel.spendradar.ui.elements.BottomNavBar
+import com.pef.mendelu.novotnysamuel.spendradar.ui.elements.PlaceholderScreenContent
 import com.pef.mendelu.novotnysamuel.spendradar.ui.elements.formatCurrency
 import com.pef.mendelu.novotnysamuel.spendradar.ui.theme.accentColor
 import com.pef.mendelu.novotnysamuel.spendradar.ui.theme.barButton
@@ -62,6 +63,10 @@ fun StatsScreen(
 ){
     val viewModel = hiltViewModel<StatsViewModel>()
     val state by viewModel.uiState.collectAsStateWithLifecycle()
+    val hasData = state.summary.totalSpent > 0L ||
+        state.summary.mostVisitedStore != null ||
+        state.summary.topSpendStore != null ||
+        state.pieItems.isNotEmpty()
 
     BaseScreen(
         bottomBarContent = {
@@ -70,6 +75,12 @@ fun StatsScreen(
                 navigation = navigation
             )
         },
+        placeholderScreenContent = if (!state.isLoading && !hasData) {
+            PlaceholderScreenContent(
+                image = R.drawable.undraw_graph,
+                text = stringResource(R.string.stats_empty)
+            )
+        } else null,
         actions = {
             IconButton(onClick = {
                 navigation.navigateToSettings()
