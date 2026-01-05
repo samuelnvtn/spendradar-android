@@ -18,6 +18,7 @@ data class AddUIState(
     val location: LatLng = LatLng(49.2098028, 16.6145219),
     val category: ReceiptCategory = ReceiptCategory.FOOD_DRINK,
     val items: List<AddReceiptItemInput> = emptyList(),
+    val originalTotalPrice: Long? = null,
     val currency: String = "CZK",
     val isSaving: Boolean = false,
     val saveCompleted: Boolean = false

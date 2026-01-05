@@ -4,11 +4,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import android.graphics.Bitmap
 import com.google.android.gms.maps.model.LatLng
-import com.pef.mendelu.novotnysamuel.spendradar.database.IReceiptsLocalRepository
-import com.pef.mendelu.novotnysamuel.spendradar.model.Receipt
 import com.pef.mendelu.novotnysamuel.spendradar.model.ReceiptCategory
-import com.pef.mendelu.novotnysamuel.spendradar.model.ReceiptItem
+import com.pef.mendelu.novotnysamuel.spendradar.ui.screens.add.AddReceiptItemInput
 import com.pef.mendelu.novotnysamuel.spendradar.utils.GeminiParser
+import com.pef.mendelu.novotnysamuel.spendradar.utils.ReceiptDraft
+import com.pef.mendelu.novotnysamuel.spendradar.utils.ReceiptDraftStore
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -21,9 +21,7 @@ import javax.inject.Inject
 import kotlin.math.roundToLong
 
 @HiltViewModel
-class TextRecognitionViewModel @Inject constructor(
-    private val repository: IReceiptsLocalRepository
-) : ViewModel() {
+class TextRecognitionViewModel @Inject constructor() : ViewModel() {
 
     private val _isCapturing = MutableStateFlow(false)
     val isCapturing = _isCapturing.asStateFlow()
@@ -42,9 +40,9 @@ class TextRecognitionViewModel @Inject constructor(
         viewModelScope.launch {
             val parsedData = GeminiParser.parseReceipt(bitmap)
             if (parsedData != null) {
-                val receipt = mapToReceipt(parsedData)
-                val id = repository.insertReceipt(receipt)
-                _navigateToEditId.value = id
+                val draft = mapToDraft(parsedData)
+                ReceiptDraftStore.set(draft)
+                _navigateToEditId.value = 0L
             }
             _isLoading.value = false
         }
@@ -59,19 +57,23 @@ class TextRecognitionViewModel @Inject constructor(
         _navigateToEditId.value = null
     }
 
-    private fun mapToReceipt(parsed: GeminiParser.GeminiReceiptResponse): Receipt {
+    private fun mapToDraft(parsed: GeminiParser.GeminiReceiptResponse): ReceiptDraft {
         val items = (parsed.items ?: emptyList()).mapNotNull { item ->
             val name = item.name?.trim().orEmpty()
             val quantity = item.quantity ?: 1
             val price = item.price ?: return@mapNotNull null
             if (name.isBlank() || quantity <= 0 || price < 0) return@mapNotNull null
-            ReceiptItem(
-                itemName = name,
-                quantity = quantity,
-                pricePerUnit = (price * 100).roundToLong()
+            AddReceiptItemInput(
+                name = name,
+                quantity = quantity.toString(),
+                price = formatPriceForInput((price * 100).roundToLong())
             )
         }
-        val totalFromItems = items.sumOf { it.pricePerUnit * it.quantity }
+        val totalFromItems = items.sumOf { input ->
+            val q = input.quantity.trim().toIntOrNull() ?: 0
+            val p = parsePriceToCents(input.price) ?: 0
+            p * q
+        }
         val totalPrice = parsed.totalPrice?.let { (it * 100).roundToLong() }
             ?.takeIf { it > 0 } ?: totalFromItems
 
@@ -85,15 +87,35 @@ class TextRecognitionViewModel @Inject constructor(
         val category = ReceiptCategory.fromStorage(parsed.category)
         val location = LatLng(49.2098028, 16.6145219)
 
-        return Receipt(
+        return ReceiptDraft(
             storeName = parsed.storeName?.trim().orEmpty().ifBlank { "Unknown store" },
-            type = category.storageValue,
-            latitude = location.latitude,
-            longitude = location.longitude,
-            timestamp = timestamp,
+            dateMillis = timestamp.toEpochMilli(),
+            time = timestamp.atZone(ZoneId.systemDefault()).toLocalTime(),
+            location = location,
+            category = category,
+            items = items,
             totalPrice = totalPrice,
-            currency = parsed.currency?.ifBlank { "CZK" } ?: "CZK",
-            items = items
+            currency = parsed.currency?.ifBlank { "CZK" } ?: "CZK"
         )
+    }
+
+    private fun parsePriceToCents(value: String): Long? {
+        val normalized = value.trim().replace(",", ".")
+        if (normalized.isBlank()) return null
+        return try {
+            val decimal = java.math.BigDecimal(normalized)
+            decimal.multiply(java.math.BigDecimal(100))
+                .setScale(0, java.math.RoundingMode.HALF_UP)
+                .toLong()
+        } catch (_: NumberFormatException) {
+            null
+        }
+    }
+
+    private fun formatPriceForInput(value: Long): String {
+        val absValue = kotlin.math.abs(value)
+        val crowns = absValue / 100
+        val cents = absValue % 100
+        return String.format(java.util.Locale("cs", "CZ"), "%d,%02d", crowns, cents)
     }
 }

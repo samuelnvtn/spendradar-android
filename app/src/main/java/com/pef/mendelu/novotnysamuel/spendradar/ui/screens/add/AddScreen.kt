@@ -97,6 +97,15 @@ fun AddScreen(
         }
     }
 
+    LaunchedEffect(fromCamera) {
+        if (fromCamera) {
+            val draft = com.pef.mendelu.novotnysamuel.spendradar.utils.ReceiptDraftStore.consume()
+            if (draft != null) {
+                viewModel.applyDraft(draft)
+            }
+        }
+    }
+
     LaunchedEffect(state.saveCompleted) {
         if (state.saveCompleted) {
             if (fromCamera) {

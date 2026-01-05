@@ -8,6 +8,7 @@ import com.pef.mendelu.novotnysamuel.spendradar.database.IReceiptsLocalRepositor
 import com.pef.mendelu.novotnysamuel.spendradar.model.Receipt
 import com.pef.mendelu.novotnysamuel.spendradar.model.ReceiptCategory
 import com.pef.mendelu.novotnysamuel.spendradar.model.ReceiptItem
+import com.pef.mendelu.novotnysamuel.spendradar.utils.ReceiptDraft
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -166,10 +167,28 @@ class AddViewModel @Inject constructor(
                             price = formatPriceForInput(item.pricePerUnit)
                         )
                     },
+                    originalTotalPrice = receipt.totalPrice,
                     currency = receipt.currency,
                     saveCompleted = false
                 )
             }
+        }
+    }
+
+    fun applyDraft(draft: ReceiptDraft) {
+        _uiState.update {
+            it.copy(
+                receiptId = null,
+                storeName = draft.storeName,
+                dateMillis = draft.dateMillis,
+                time = draft.time,
+                location = draft.location,
+                category = draft.category,
+                items = draft.items,
+                originalTotalPrice = draft.totalPrice,
+                currency = draft.currency,
+                saveCompleted = false
+            )
         }
     }
 

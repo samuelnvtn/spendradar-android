@@ -45,7 +45,7 @@ fun TextRecognitionScreen(navigation: INavigationRouter) {
     LaunchedEffect(navigateToEditId) {
         val id = navigateToEditId
         if (id != null) {
-            navigation.navigateToAdd(id, fromCamera = true)
+            navigation.navigateToAdd(fromCamera = true)
             viewModel.onNavigationHandled()
         }
     }
