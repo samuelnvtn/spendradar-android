@@ -120,7 +120,8 @@ fun AddScreen(
         AddScreenContent(
             paddingValues = paddingValues,
             state = state,
-            actions = viewModel
+            actions = viewModel,
+            isEditing = receiptId != null && receiptId != -1L
         )
     }
 }
@@ -130,7 +131,8 @@ fun AddScreen(
 fun AddScreenContent(
     paddingValues: PaddingValues,
     state: AddUIState,
-    actions: AddActions
+    actions: AddActions,
+    isEditing: Boolean
 ) {
     var showDatePicker by remember { mutableStateOf(false) }
     var showTimePicker by remember { mutableStateOf(false) }
@@ -209,9 +211,9 @@ fun AddScreenContent(
         onPermissionDenied = { hasLocationPermission = false }
     )
 
-    LaunchedEffect(hasLocationPermission, state.receiptId, state.location) {
+    LaunchedEffect(hasLocationPermission, isEditing, state.location) {
         if (hasLocationPermission &&
-            state.receiptId == null &&
+            !isEditing &&
             !locationInitialized &&
             isDefaultLocation(state.location)
         ) {
