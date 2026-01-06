@@ -15,8 +15,8 @@ TODO:
 12. ~~KOMPLETNI REFAKTOR KODU(duplicita jak magor a random insane hovna)~~
 13. ~~EDIT~~
 14. ~~Camera~~
-15. Ikona
-16. Splashscreen?
+15. ~~Ikona~~
+16. ~~Splashscreen?~~
 17. ~~flashbang pri prechodu?~~
 18. ~~StatsScreen~~
 19. ~~lokace pri editu se da na lokaci zarizeni~~
@@ -33,3 +33,4 @@ BUGS:
 
 -   ~~kdyz kamera nic nezachyti a gemini tak vrati null -> appka spadne~~
 -   ~~kdyz vyfotim uctenku a z editu dam sipku zpet, hodi me to do kamery, ale zaznam se presto ulozi. chyba navrhu flow.~~
+- empty databaze, pridam item ze vcerejsiho dne, propise se do stats ale jen do minuleho tydne/mesice/roku. na dnesek logicky ne. jenze kdyz dnesek nema data, tak to aktivuje placeholderscreen a nemuzu se prepnout zpet na tyden, mesic ci rok atd.
