@@ -26,6 +26,7 @@ import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.DatePicker
+import androidx.compose.material3.DatePickerDefaults
 import androidx.compose.material3.DatePickerDialog
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuBox
@@ -39,9 +40,12 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TimePicker
 import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.LocalContentColor
+import androidx.compose.material3.TimePickerDefaults
 import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.material3.rememberTimePickerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -49,6 +53,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -72,7 +77,9 @@ import com.pef.mendelu.novotnysamuel.spendradar.ui.theme.accentColor
 import com.pef.mendelu.novotnysamuel.spendradar.ui.theme.barButton
 import com.pef.mendelu.novotnysamuel.spendradar.ui.theme.barColor
 import com.pef.mendelu.novotnysamuel.spendradar.ui.theme.basicMargin
+import com.pef.mendelu.novotnysamuel.spendradar.ui.theme.darkGreen
 import com.pef.mendelu.novotnysamuel.spendradar.ui.theme.halfMargin
+import com.pef.mendelu.novotnysamuel.spendradar.ui.theme.lightButton
 import com.pef.mendelu.novotnysamuel.spendradar.ui.theme.textColor
 import com.pef.mendelu.novotnysamuel.spendradar.ui.theme.textFieldColors
 import com.pef.mendelu.novotnysamuel.spendradar.utils.areItemsValid
@@ -174,6 +181,8 @@ fun AddScreenContent(
             initialSelectedDateMillis = state.dateMillis ?: System.currentTimeMillis()
         )
         DatePickerDialog(
+            colors = DatePickerDefaults.colors(
+                containerColor = barButton),
             onDismissRequest = { showDatePicker = false },
             confirmButton = {
                 TextButton(onClick = {
@@ -181,16 +190,33 @@ fun AddScreenContent(
                     showDatePicker = false
                     showTimePicker = true
                 }) {
-                    Text(text = stringResource(android.R.string.ok))
+                    Text(text = stringResource(android.R.string.ok), color = accentColor)
                 }
             },
             dismissButton = {
                 TextButton(onClick = { showDatePicker = false }) {
-                    Text(text = stringResource(R.string.cancel))
+                    Text(text = stringResource(R.string.cancel), color = textColor)
                 }
             }
         ) {
-            DatePicker(state = datePickerState)
+            CompositionLocalProvider(LocalContentColor provides textColor){
+            DatePicker(state = datePickerState, colors = DatePickerDefaults.colors(
+                containerColor = barButton,
+                titleContentColor = textColor,
+                headlineContentColor = textColor,
+                weekdayContentColor = textColor,
+                dayContentColor = textColor,
+                selectedDayContainerColor = accentColor,
+                selectedDayContentColor = barColor,
+                todayContentColor = accentColor,
+                todayDateBorderColor = accentColor,
+                dividerColor = accentColor,
+                subheadContentColor = textColor,
+                selectedYearContainerColor = accentColor,
+                selectedYearContentColor = textColor,
+                dateTextFieldColors = textFieldColors(),
+                navigationContentColor = textColor
+            ))}
         }
     }
 
@@ -201,22 +227,45 @@ fun AddScreenContent(
             is24Hour = true
         )
         AlertDialog(
+            containerColor = barButton,
             onDismissRequest = { showTimePicker = false },
             confirmButton = {
                 TextButton(onClick = {
                     actions.onTimeChange(LocalTime.of(timePickerState.hour, timePickerState.minute))
                     showTimePicker = false
                 }) {
-                    Text(text = stringResource(android.R.string.ok))
+                    Text(text = stringResource(android.R.string.ok), color = accentColor)
                 }
             },
             dismissButton = {
                 TextButton(onClick = { showTimePicker = false }) {
-                    Text(text = stringResource(R.string.cancel))
+                    Text(text = stringResource(R.string.cancel), color = textColor)
                 }
             },
             text = {
-                TimePicker(state = timePickerState)
+                TimePicker(state = timePickerState, colors = TimePickerDefaults.colors(
+                    containerColor = barButton,
+                    clockDialColor = darkGreen,
+                    clockDialSelectedContentColor = barColor,
+                    selectorColor = accentColor,
+                    periodSelectorSelectedContainerColor = barColor,
+                    periodSelectorSelectedContentColor = textColor,
+                    periodSelectorUnselectedContainerColor = barColor,
+                    periodSelectorUnselectedContentColor = textColor,
+                    timeSelectorSelectedContainerColor = accentColor,
+                    timeSelectorUnselectedContainerColor = barColor,
+                /*
+                periodSelectorBorderColor: Color = Color.Unspecified,
+                : Color = Color.Unspecified,
+                periodSelectorUnselectedContainerColor: Color = Color.Unspecified,
+                periodSelectorSelectedContentColor: Color = Color.Unspecified,
+                periodSelectorUnselectedContentColor: Color = Color.Unspecified,
+                timeSelectorSelectedContainerColor: Color = Color.Unspecified,
+                timeSelectorUnselectedContainerColor: Color = Color.Unspecified,
+                timeSelectorSelectedContentColor: Color = Color.Unspecified,
+                timeSelectorUnselectedContentColor: Color = Color.Unspecified
+                */
+                ))
             }
         )
     }

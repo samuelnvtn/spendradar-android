@@ -1,5 +1,6 @@
 package com.pef.mendelu.novotnysamuel.spendradar.ui.theme
 
+import androidx.compose.foundation.text.selection.TextSelectionColors
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
@@ -21,7 +22,7 @@ val darkGreen = Color(0xFF1A2C23)
 val ultraGreen = Color(0xFF1A2C23)
 
 
-val accentColor = Color(0xFF11EB6E)
+val accentColor = Color(0xFF0EB957)
 
 val Purple80 = Color(0xFFD0BCFF)
 val PurpleGrey80 = Color(0xFFCCC2DC)
@@ -31,6 +32,11 @@ val Purple40 = Color(0xFF6650a4)
 val PurpleGrey40 = Color(0xFF625b71)
 val Pink40 = Color(0xFF7D5260)
 
+val selectionColors = TextSelectionColors(
+    handleColor = accentColor,
+    backgroundColor = barButton
+)
+
 @Composable
 fun textFieldColors() = TextFieldDefaults.colors(
     focusedContainerColor = barColor,
@@ -39,5 +45,8 @@ fun textFieldColors() = TextFieldDefaults.colors(
     unfocusedTextColor = textColor,
     focusedIndicatorColor = accentColor,
     unfocusedIndicatorColor = barButton,
-    cursorColor = accentColor
+    cursorColor = accentColor,
+    focusedLabelColor = accentColor,
+    unfocusedLabelColor = accentColor,
+    selectionColors = selectionColors,
 )
