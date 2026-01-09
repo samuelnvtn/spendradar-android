@@ -40,8 +40,4 @@ class NavigationRouterImpl(private val navController: NavController) : INavigati
         navController.popBackStack()
     }
 
-    override fun navigateTest() {
-        navController.navigate(Destination.TestScreen.route)
-    }
-
 }

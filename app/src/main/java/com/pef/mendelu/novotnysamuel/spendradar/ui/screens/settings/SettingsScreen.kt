@@ -26,6 +26,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -34,6 +35,10 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.pef.mendelu.novotnysamuel.spendradar.R
 import com.pef.mendelu.novotnysamuel.spendradar.navigation.Destination
 import com.pef.mendelu.novotnysamuel.spendradar.navigation.INavigationRouter
+import com.pef.mendelu.novotnysamuel.spendradar.testing.TestTagSettingsLanguage
+import com.pef.mendelu.novotnysamuel.spendradar.testing.TestTagSettingsLanguageDropdown
+import com.pef.mendelu.novotnysamuel.spendradar.testing.TestTagSettingsLanguageButton
+import com.pef.mendelu.novotnysamuel.spendradar.testing.TestTagSettingsSelectedLanguage
 import com.pef.mendelu.novotnysamuel.spendradar.ui.activities.MainActivity
 import com.pef.mendelu.novotnysamuel.spendradar.ui.elements.BaseScreen
 import com.pef.mendelu.novotnysamuel.spendradar.ui.elements.BottomNavBar
@@ -114,6 +119,8 @@ fun SettingsScreenContent(
                 modifier = Modifier
                     .align(Alignment.CenterHorizontally)
                     .padding(bottom = 16.dp)
+                    .testTag(TestTagSettingsLanguage)
+
             )
             Box(
                 modifier = Modifier
@@ -121,12 +128,14 @@ fun SettingsScreenContent(
                     .border(1.dp, lightButton, RoundedCornerShape(80.dp))
                     .clickable { expanded = true }
                     .align(Alignment.CenterHorizontally)
+                    .testTag(TestTagSettingsLanguageDropdown)
                     .padding(top = 16.dp, bottom = 16.dp),
                 contentAlignment = Alignment.Center
             ) {
                 Text(
                     text = languages.find { it.second == language }?.first ?: language,
                     color = textColor,
+                    modifier = Modifier.testTag(TestTagSettingsSelectedLanguage)
                 )
                 DropdownMenu(
                     expanded = expanded,
@@ -140,6 +149,7 @@ fun SettingsScreenContent(
                             DropdownMenuItem(
                                 text = { Text(label, textAlign = TextAlign.Center,
                                     modifier = Modifier.fillMaxWidth()) },
+                                modifier = Modifier.testTag(TestTagSettingsLanguageButton),
                                 onClick = {
                                     viewModel.setLanguage(code)
                                     updateLocale(

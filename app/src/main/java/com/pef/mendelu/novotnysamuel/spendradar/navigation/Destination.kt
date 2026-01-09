@@ -9,6 +9,5 @@ sealed class Destination(val route: String) {
     object SettingsScreen : Destination("settings")
     object TextRecognitionScreen : Destination("text_recognition")
 
-    object TestScreen : Destination("test")
 
 }

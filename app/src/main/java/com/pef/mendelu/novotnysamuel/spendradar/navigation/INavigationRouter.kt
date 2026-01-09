@@ -10,6 +10,4 @@ interface INavigationRouter {
     fun navigateToTextRecognition()
     fun navigateToSettings()
     fun returnBack()
-
-    fun navigateTest()
 }
