@@ -17,6 +17,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material.icons.Icons
@@ -55,8 +56,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -69,6 +73,12 @@ import com.pef.mendelu.novotnysamuel.spendradar.model.ReceiptDraftStore
 import com.pef.mendelu.novotnysamuel.spendradar.navigation.Destination
 import com.pef.mendelu.novotnysamuel.spendradar.navigation.INavigationRouter
 import com.pef.mendelu.novotnysamuel.spendradar.permissions.LocationPermissionHandler
+import com.pef.mendelu.novotnysamuel.spendradar.testing.TestTagAddAddItem
+import com.pef.mendelu.novotnysamuel.spendradar.testing.TestTagAddItemNamePrefix
+import com.pef.mendelu.novotnysamuel.spendradar.testing.TestTagAddItemPricePrefix
+import com.pef.mendelu.novotnysamuel.spendradar.testing.TestTagAddItemQuantityPrefix
+import com.pef.mendelu.novotnysamuel.spendradar.testing.TestTagAddSaveButton
+import com.pef.mendelu.novotnysamuel.spendradar.testing.TestTagAddStoreName
 import com.pef.mendelu.novotnysamuel.spendradar.ui.elements.BaseScreen
 import com.pef.mendelu.novotnysamuel.spendradar.ui.elements.BottomNavBar
 import com.pef.mendelu.novotnysamuel.spendradar.ui.elements.MapPicker
@@ -161,6 +171,7 @@ fun AddScreenContent(
     var categoryExpanded by remember { mutableStateOf(false) }
     var hasLocationPermission by remember { mutableStateOf(false) }
     val context = LocalContext.current
+    val focusManager = LocalFocusManager.current
     var isMapInteracting by remember { mutableStateOf(false) }
     val scrollState = rememberScrollState()
     var locationInitialized by remember { mutableStateOf(false) }
@@ -301,7 +312,9 @@ fun AddScreenContent(
             value = state.storeName,
             onValueChange = actions::onStoreNameChange,
             label = { Text(stringResource(R.string.store_name)) },
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .testTag(TestTagAddStoreName),
             colors = textFieldColors(),
             singleLine = true,
             maxLines = 1
@@ -396,7 +409,10 @@ fun AddScreenContent(
                 color = textColor,
                 fontWeight = FontWeight.SemiBold
             )
-            TextButton(onClick = actions::onAddItem) {
+            TextButton(
+                onClick = actions::onAddItem,
+                modifier = Modifier.testTag(TestTagAddAddItem)
+            ) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Surface(
                         shape = CircleShape,
@@ -442,7 +458,9 @@ fun AddScreenContent(
                                 value = item.name,
                                 onValueChange = { actions.onItemNameChange(index, it) },
                                 label = { Text(stringResource(R.string.item_name)) },
-                                modifier = Modifier.weight(1.6f),
+                                modifier = Modifier
+                                    .weight(1.6f)
+                                    .testTag(TestTagAddItemNamePrefix + index),
                                 colors = textFieldColors(),
                                 singleLine = true,
                                 maxLines = 1
@@ -451,7 +469,9 @@ fun AddScreenContent(
                                 value = item.quantity,
                                 onValueChange = { actions.onItemQuantityChange(index, it) },
                                 label = { Text(stringResource(R.string.item_quantity)) },
-                                modifier = Modifier.weight(0.8f),
+                                modifier = Modifier
+                                    .weight(0.8f)
+                                    .testTag(TestTagAddItemQuantityPrefix + index),
                                 keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                                 colors = textFieldColors(),
                                 singleLine = true,
@@ -461,8 +481,14 @@ fun AddScreenContent(
                                 value = item.price,
                                 onValueChange = { actions.onItemPriceChange(index, it) },
                                 label = { Text(stringResource(R.string.item_price)) },
-                                modifier = Modifier.weight(1f),
-                                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
+                                modifier = Modifier
+                                    .weight(1f)
+                                    .testTag(TestTagAddItemPricePrefix + index),
+                                keyboardOptions = KeyboardOptions(
+                                    keyboardType = KeyboardType.Decimal,
+                                    imeAction = ImeAction.Done
+                                ),
+                                keyboardActions = KeyboardActions(onDone = { focusManager.clearFocus() }),
                                 colors = textFieldColors(),
                                 singleLine = true,
                                 maxLines = 1
@@ -498,7 +524,8 @@ fun AddScreenContent(
             onClick = actions::onSave,
             modifier = Modifier
                 .fillMaxWidth()
-                .height(52.dp),
+                .height(52.dp)
+                .testTag(TestTagAddSaveButton),
             enabled = !state.isSaving,
             colors = ButtonDefaults.buttonColors(containerColor = accentColor)
         ) {

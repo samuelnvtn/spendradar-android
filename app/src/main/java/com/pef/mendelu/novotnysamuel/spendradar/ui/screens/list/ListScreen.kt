@@ -38,6 +38,7 @@ import com.pef.mendelu.novotnysamuel.spendradar.R
 import com.pef.mendelu.novotnysamuel.spendradar.model.Receipt
 import com.pef.mendelu.novotnysamuel.spendradar.navigation.Destination
 import com.pef.mendelu.novotnysamuel.spendradar.navigation.INavigationRouter
+import com.pef.mendelu.novotnysamuel.spendradar.testing.TestTagListFab
 import com.pef.mendelu.novotnysamuel.spendradar.testing.TestTagNavToSettings
 import com.pef.mendelu.novotnysamuel.spendradar.ui.elements.AddReceiptDialog
 import com.pef.mendelu.novotnysamuel.spendradar.ui.elements.BaseScreen
@@ -109,7 +110,9 @@ fun ListScreen(
             FloatingActionButton(onClick = {
                 showDialog = true
             }, containerColor = barButton, contentColor = accentColor,
-                modifier = Modifier.offset(y = (-16).dp)
+                modifier = Modifier
+                    .offset(y = (-16).dp)
+                    .testTag(TestTagListFab)
 
             ) {
                 Icon(

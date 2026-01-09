@@ -15,12 +15,14 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import com.pef.mendelu.novotnysamuel.spendradar.R
 import com.pef.mendelu.novotnysamuel.spendradar.navigation.INavigationRouter
+import com.pef.mendelu.novotnysamuel.spendradar.testing.TestTagAddManualEntry
 import com.pef.mendelu.novotnysamuel.spendradar.ui.theme.barButton
 import com.pef.mendelu.novotnysamuel.spendradar.ui.theme.barColor
 import com.pef.mendelu.novotnysamuel.spendradar.ui.theme.textColor
@@ -69,6 +71,7 @@ fun AddReceiptDialog(
                 OptionButton(
                     painter = painterResource(id = R.drawable.edit),
                     label = stringResource(R.string.manual_entry),
+                    modifier = Modifier.testTag(TestTagAddManualEntry),
                     onClick = {
                         onDismissRequest()
                         navigation.navigateToAdd(fromCamera = false)
