@@ -32,6 +32,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -50,6 +51,8 @@ import com.pef.mendelu.novotnysamuel.spendradar.model.Receipt
 import com.pef.mendelu.novotnysamuel.spendradar.model.ReceiptCategory
 import com.pef.mendelu.novotnysamuel.spendradar.navigation.Destination
 import com.pef.mendelu.novotnysamuel.spendradar.navigation.INavigationRouter
+import com.pef.mendelu.novotnysamuel.spendradar.testing.TestTagDetailDeleteButton
+import com.pef.mendelu.novotnysamuel.spendradar.testing.TestTagDetailEditButton
 import com.pef.mendelu.novotnysamuel.spendradar.ui.elements.BaseScreen
 import com.pef.mendelu.novotnysamuel.spendradar.ui.elements.BottomNavBar
 import com.pef.mendelu.novotnysamuel.spendradar.ui.elements.CategoryIconBadge
@@ -89,12 +92,15 @@ fun DetailScreen(
 
     BaseScreen(
         actions = {
-            IconButton(onClick = {
+            IconButton(
+                onClick = {
                 val editId = (state.value as? DetailUIState.Success)?.receipt?.id
                 if (editId != null) {
                     navigation.navigateToAdd(editId, fromCamera = false)
                 }
-            }) {
+            },
+                modifier = Modifier.testTag(TestTagDetailEditButton)
+            ) {
                 Icon(
                     imageVector = Icons.Outlined.Edit,
                     contentDescription = "Edit",
@@ -270,7 +276,8 @@ fun DetailScreenContent(
             onClick = onDelete,
             modifier = Modifier
                 .fillMaxWidth()
-                .height(52.dp),
+                .height(52.dp)
+                .testTag(TestTagDetailDeleteButton),
             shape = RoundedCornerShape(26.dp),
             colors = ButtonDefaults.outlinedButtonColors(
                 contentColor = androidx.compose.ui.graphics.Color.Red

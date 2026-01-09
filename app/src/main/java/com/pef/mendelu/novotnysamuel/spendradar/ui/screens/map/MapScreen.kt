@@ -6,6 +6,8 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.clickable
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material3.CircularProgressIndicator
@@ -25,6 +27,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -42,12 +45,14 @@ import com.google.maps.android.compose.MapProperties
 import com.google.maps.android.compose.MapUiSettings
 import com.google.maps.android.compose.MapsComposeExperimentalApi
 import com.google.maps.android.compose.rememberCameraPositionState
+import com.pef.mendelu.novotnysamuel.spendradar.BuildConfig
 import com.pef.mendelu.novotnysamuel.spendradar.R
 import com.pef.mendelu.novotnysamuel.spendradar.map.ClusterMapRenderer
 import com.pef.mendelu.novotnysamuel.spendradar.model.Receipt
 import com.pef.mendelu.novotnysamuel.spendradar.navigation.Destination
 import com.pef.mendelu.novotnysamuel.spendradar.navigation.INavigationRouter
 import com.pef.mendelu.novotnysamuel.spendradar.permissions.LocationPermissionHandler
+import com.pef.mendelu.novotnysamuel.spendradar.testing.TestTagMapOpenFirstReceipt
 import com.pef.mendelu.novotnysamuel.spendradar.ui.elements.AddReceiptDialog
 import com.pef.mendelu.novotnysamuel.spendradar.ui.elements.BaseScreen
 import com.pef.mendelu.novotnysamuel.spendradar.ui.elements.BottomNavBar
@@ -197,6 +202,15 @@ fun MapScreenContent(
                 }
 
             }
+        }
+        if (BuildConfig.DEBUG && receipts.isNotEmpty()) {
+            Box(
+                modifier = Modifier
+                    .align(Alignment.TopStart)
+                    .size(1.dp)
+                    .testTag(TestTagMapOpenFirstReceipt)
+                    .clickable { selectedReceipt = receipts.first() }
+            )
         }
         if (isLoading) {
             Box(

@@ -17,11 +17,13 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.pef.mendelu.novotnysamuel.spendradar.R
 import com.pef.mendelu.novotnysamuel.spendradar.model.Receipt
 import com.pef.mendelu.novotnysamuel.spendradar.model.ReceiptCategory
+import com.pef.mendelu.novotnysamuel.spendradar.testing.TestTagMapBottomSheetDetail
 import com.pef.mendelu.novotnysamuel.spendradar.ui.theme.accentColor
 import com.pef.mendelu.novotnysamuel.spendradar.ui.theme.textColor
 
@@ -55,7 +57,10 @@ fun ReceiptBottomSheetContent(
                     color = textColor.copy(alpha = 0.7f)
                 )
             }
-            IconButton(onClick = onDetailClick) {
+            IconButton(
+                onClick = onDetailClick,
+                modifier = Modifier.testTag(TestTagMapBottomSheetDetail)
+            ) {
                 Icon(
                     imageVector = Icons.Outlined.Info,
                     contentDescription = stringResource(R.string.detail),

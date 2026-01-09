@@ -21,11 +21,12 @@ import com.pef.mendelu.novotnysamuel.spendradar.ui.theme.textColor
 fun OptionButton(
     painter: Painter,
     label: String,
+    modifier: Modifier = Modifier,
     onClick: () -> Unit
 ) {
     TextButton(
         onClick = onClick,
-        modifier = Modifier.fillMaxWidth()
+        modifier = modifier.fillMaxWidth()
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
