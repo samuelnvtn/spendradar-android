@@ -56,6 +56,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.platform.testTag
+import com.pef.mendelu.novotnysamuel.spendradar.testing.TestTagStatsDay
+import com.pef.mendelu.novotnysamuel.spendradar.testing.TestTagStatsMonth
+import com.pef.mendelu.novotnysamuel.spendradar.testing.TestTagStatsWeek
+import com.pef.mendelu.novotnysamuel.spendradar.testing.TestTagStatsYear
 
 @Composable
 fun StatsScreen(
@@ -238,21 +243,25 @@ private fun StatsTabs(
         StatsTabItem(
             label = stringResource(R.string.stats_tab_day),
             selected = selected == StatsRange.DAY,
+            testTag = TestTagStatsDay,
             onClick = { onSelected(StatsRange.DAY) }
         )
         StatsTabItem(
             label = stringResource(R.string.stats_tab_week),
             selected = selected == StatsRange.WEEK,
+            testTag = TestTagStatsWeek,
             onClick = { onSelected(StatsRange.WEEK) }
         )
         StatsTabItem(
             label = stringResource(R.string.stats_tab_month),
             selected = selected == StatsRange.MONTH,
+            testTag = TestTagStatsMonth,
             onClick = { onSelected(StatsRange.MONTH) }
         )
         StatsTabItem(
             label = stringResource(R.string.stats_tab_year),
             selected = selected == StatsRange.YEAR,
+            testTag = TestTagStatsYear,
             onClick = { onSelected(StatsRange.YEAR) }
         )
     }
@@ -262,6 +271,7 @@ private fun StatsTabs(
 private fun RowScope.StatsTabItem(
     label: String,
     selected: Boolean,
+    testTag: String,
     onClick: () -> Unit
 ) {
     Column(
@@ -273,7 +283,9 @@ private fun RowScope.StatsTabItem(
         TextButton(
             onClick = onClick,
             contentPadding = PaddingValues(horizontal = 6.dp, vertical = 0.dp),
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier
+                .fillMaxWidth()
+                .testTag(testTag)
         ) {
             Text(
                 text = label,

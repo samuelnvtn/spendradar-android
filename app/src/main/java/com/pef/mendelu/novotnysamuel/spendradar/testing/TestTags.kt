@@ -19,3 +19,9 @@ const val TestTagDetailEditButton = "TestTagDetailEditButton"
 const val TestTagDetailDeleteButton = "TestTagDetailDeleteButton"
 const val TestTagMapOpenFirstReceipt = "TestTagMapOpenFirstReceipt"
 const val TestTagMapBottomSheetDetail = "TestTagMapBottomSheetDetail"
+
+const val TestTagStatsDay = "TestTagStatsDay"
+const val TestTagStatsWeek = "TestTagStatsWeek"
+const val TestTagStatsMonth = "TestTagStatsMonth"
+const val TestTagStatsYear = "TestTagStatsYear"
+
