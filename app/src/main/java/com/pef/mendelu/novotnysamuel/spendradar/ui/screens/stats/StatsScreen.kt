@@ -63,10 +63,6 @@ fun StatsScreen(
 ){
     val viewModel = hiltViewModel<StatsViewModel>()
     val state by viewModel.uiState.collectAsStateWithLifecycle()
-    val hasData = state.summary.totalSpent > 0L ||
-        state.summary.mostVisitedStore != null ||
-        state.summary.topSpendStore != null ||
-        state.pieItems.isNotEmpty()
 
     BaseScreen(
         bottomBarContent = {
@@ -75,7 +71,7 @@ fun StatsScreen(
                 navigation = navigation
             )
         },
-        placeholderScreenContent = if (!state.isLoading && !hasData) {
+        placeholderScreenContent = if (!state.isLoading && !state.hasAnyData) {
             PlaceholderScreenContent(
                 image = R.drawable.undraw_graph,
                 text = stringResource(R.string.stats_empty)
@@ -119,7 +115,6 @@ fun StatsScreenContent(
             )
         })
     }
-
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -157,15 +152,15 @@ fun StatsScreenContent(
                 ) {
                     StatLabelValue(
                         label = statsTotalLabel(state.range),
-                        value = formatCurrency(state.summary.totalSpent, stringResource(R.string.currency_czk))
+                        value = formatExpense(state.summary.totalSpent, stringResource(R.string.currency_czk))
                     )
                     StatLabelValue(
                         label = stringResource(R.string.stats_most_visited),
-                        value = state.summary.mostVisitedStore ?: stringResource(R.string.stats_empty)
+                        value = state.summary.mostVisitedStore ?: "-"
                     )
                     StatLabelValue(
                         label = stringResource(R.string.stats_top_spend),
-                        value = state.summary.topSpendStore ?: stringResource(R.string.stats_empty)
+                        value = state.summary.topSpendStore ?: "-"
                     )
                 }
             }
@@ -176,25 +171,26 @@ fun StatsScreenContent(
                 color = textColor
             )
 
-            Surface(
-                shape = RoundedCornerShape(20.dp),
-                color = barColor,
-                border = BorderStroke(1.dp, barButton),
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(vertical = 18.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally
+            if (state.pieItems.isEmpty()) {
+                Text(
+                    text = stringResource(R.string.stats_no_data_range),
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = textColor.copy(alpha = 0.7f),
+                    modifier = Modifier.padding(bottom = 8.dp)
+                )
+            } else {
+                Surface(
+                    shape = RoundedCornerShape(20.dp),
+                    color = barColor,
+                    border = BorderStroke(1.dp, barButton),
+                    modifier = Modifier.fillMaxWidth()
                 ) {
-                    if (state.pieItems.isEmpty()) {
-                        Text(
-                            text = stringResource(R.string.stats_empty),
-                            style = MaterialTheme.typography.bodyMedium,
-                            color = textColor.copy(alpha = 0.7f)
-                        )
-                    } else {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = 18.dp),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
                         PieChart(
                             modifier = Modifier.size(200.dp),
                             data = chartData,
@@ -216,7 +212,7 @@ fun StatsScreenContent(
                             color = textColor.copy(alpha = 0.7f)
                         )
                         Text(
-                            text = formatCurrency(state.summary.totalSpent, stringResource(R.string.currency_czk)),
+                            text = formatExpense(state.summary.totalSpent, stringResource(R.string.currency_czk)),
                             style = MaterialTheme.typography.titleMedium,
                             color = textColor,
                             fontWeight = FontWeight.SemiBold
@@ -368,5 +364,14 @@ private fun statsTotalLabel(range: StatsRange): String {
         StatsRange.WEEK -> stringResource(R.string.stats_total_week)
         StatsRange.MONTH -> stringResource(R.string.stats_total_month)
         StatsRange.YEAR -> stringResource(R.string.stats_total_year)
+    }
+}
+
+@Composable
+private fun formatExpense(amount: Long, currencySuffix: String): String {
+    return if (amount == 0L) {
+        formatCurrency(amount, currencySuffix)
+    } else {
+        "-${formatCurrency(amount, currencySuffix)}"
     }
 }

@@ -46,7 +46,8 @@ class StatsViewModel @Inject constructor(private val repository: IReceiptsLocalR
             it.copy(
                 summary = summary,
                 pieItems = pieItems,
-                isLoading = false
+                isLoading = false,
+                hasAnyData = cachedReceipts.isNotEmpty()
             )
         }
     }

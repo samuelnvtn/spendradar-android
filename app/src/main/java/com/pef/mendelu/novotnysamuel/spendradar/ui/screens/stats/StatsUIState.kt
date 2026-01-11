@@ -27,5 +27,6 @@ data class StatsUIState(
     val range: StatsRange = StatsRange.MONTH,
     val summary: StatsSummary = StatsSummary(0L, null, null),
     val pieItems: List<StatsPieItem> = emptyList(),
-    val isLoading: Boolean = true
+    val isLoading: Boolean = true,
+    val hasAnyData: Boolean = false
 )

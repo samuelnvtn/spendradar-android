@@ -35,6 +35,7 @@
     <string name="stats_top_spend">Top spending store</string>
     <string name="stats_graph_title">Graph</string>
     <string name="stats_empty">Charts need data. Add expenses to bring this screen to life.</string>
+    <string name="stats_no_data_range">No data for this range.</string>
     <string name="receipt_scanner_title">Receipt scanner</string>
     <string name="gemini_analyzing">Gemini is analyzing the receipt...</string>
     <string name="gemini_no_internet">No internet connection. Check your connection and try again.</string>
