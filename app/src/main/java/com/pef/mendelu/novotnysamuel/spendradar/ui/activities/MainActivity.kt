@@ -2,8 +2,10 @@ package com.pef.mendelu.novotnysamuel.spendradar.ui.activities
 
 import android.content.Context
 import android.content.res.Configuration
+import android.graphics.Color
 import android.os.Bundle
 import androidx.activity.ComponentActivity
+import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
@@ -58,7 +60,10 @@ class MainActivity : ComponentActivity() {
             isLocaleLoaded = true
         }
 
-        enableEdgeToEdge()
+        enableEdgeToEdge(
+            statusBarStyle = SystemBarStyle.dark(Color.BLACK),
+            navigationBarStyle = SystemBarStyle.dark(Color.BLACK)
+        )
         setContent {
             SpendRadarTheme {
                 NavGraph(startDestination = Destination.ListScreen.route)
@@ -66,4 +71,3 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
-

@@ -6,9 +6,10 @@ import com.google.ai.client.generativeai.GenerativeModel
 import com.google.ai.client.generativeai.type.content
 import com.google.ai.client.generativeai.type.generationConfig
 import com.google.gson.Gson
+import com.pef.mendelu.novotnysamuel.spendradar.BuildConfig
 
 object GeminiParser {
-    private const val API_KEY = "AIzaSyCMD0NG4F4ZvbpqTJJMDbLlt0rbI0T1a-I"
+    private const val API_KEY = BuildConfig.geminiApiKey
 
     private val generativeModel = GenerativeModel(
         modelName = "gemini-3-flash-preview",

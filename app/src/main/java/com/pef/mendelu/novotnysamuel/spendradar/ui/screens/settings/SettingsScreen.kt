@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.MenuDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -42,6 +43,9 @@ import com.pef.mendelu.novotnysamuel.spendradar.testing.TestTagSettingsSelectedL
 import com.pef.mendelu.novotnysamuel.spendradar.ui.activities.MainActivity
 import com.pef.mendelu.novotnysamuel.spendradar.ui.elements.BaseScreen
 import com.pef.mendelu.novotnysamuel.spendradar.ui.elements.BottomNavBar
+import com.pef.mendelu.novotnysamuel.spendradar.ui.theme.barButton
+import com.pef.mendelu.novotnysamuel.spendradar.ui.theme.barColor
+import com.pef.mendelu.novotnysamuel.spendradar.ui.theme.lightBlack
 import com.pef.mendelu.novotnysamuel.spendradar.ui.theme.lightButton
 import com.pef.mendelu.novotnysamuel.spendradar.ui.theme.textColor
 import java.util.Locale
@@ -140,6 +144,7 @@ fun SettingsScreenContent(
                 DropdownMenu(
                     expanded = expanded,
                     onDismissRequest = { expanded = false },
+                    containerColor = lightBlack,
                     modifier = Modifier
                         .width(250.dp)
                 ) {
@@ -148,7 +153,9 @@ fun SettingsScreenContent(
                         .forEach { (label, code) ->
                             DropdownMenuItem(
                                 text = { Text(label, textAlign = TextAlign.Center,
-                                    modifier = Modifier.fillMaxWidth()) },
+                                    modifier = Modifier.fillMaxWidth(),
+                                    color = textColor) },
+                                colors = MenuDefaults.itemColors(textColor = textColor),
                                 modifier = Modifier.testTag(TestTagSettingsLanguageButton),
                                 onClick = {
                                     viewModel.setLanguage(code)

@@ -79,6 +79,8 @@
     <string name="gemini_failed">Účtenku se nepodařilo analyzovat. Zkuste to znovu.</string>
     <string name="error_title">Chyba</string>
     <string name="action_ok">OK</string>
+    <string name="action_flash_on">Zapnout svítilnu</string>
+    <string name="action_flash_off">Vypnout svítilnu</string>
 
     <string name="intro_text_1">Track your expenses without the hassle. Snap a receipt and SpendRadar handles the rest.</string>
     <string name="intro_text_2">Every purchase leaves a trace. SpendRadar maps your spending.</string>

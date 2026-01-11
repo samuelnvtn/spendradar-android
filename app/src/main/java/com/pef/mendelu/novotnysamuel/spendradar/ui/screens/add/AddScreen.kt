@@ -89,6 +89,7 @@ import com.pef.mendelu.novotnysamuel.spendradar.ui.theme.barColor
 import com.pef.mendelu.novotnysamuel.spendradar.ui.theme.basicMargin
 import com.pef.mendelu.novotnysamuel.spendradar.ui.theme.darkGreen
 import com.pef.mendelu.novotnysamuel.spendradar.ui.theme.halfMargin
+import com.pef.mendelu.novotnysamuel.spendradar.ui.theme.lightBlack
 import com.pef.mendelu.novotnysamuel.spendradar.ui.theme.lightButton
 import com.pef.mendelu.novotnysamuel.spendradar.ui.theme.textColor
 import com.pef.mendelu.novotnysamuel.spendradar.ui.theme.textFieldColors
@@ -175,6 +176,7 @@ fun AddScreenContent(
     var isMapInteracting by remember { mutableStateOf(false) }
     val scrollState = rememberScrollState()
     var locationInitialized by remember { mutableStateOf(false) }
+    var mapCameraTarget by remember { mutableStateOf<LatLng?>(null) }
 
     val dateText = if (state.dateMillis == null) {
         stringResource(R.string.add_date_placeholder)
@@ -258,24 +260,12 @@ fun AddScreenContent(
                     containerColor = barButton,
                     clockDialColor = darkGreen,
                     clockDialSelectedContentColor = barColor,
+                    clockDialUnselectedContentColor = textColor,
                     selectorColor = accentColor,
-                    periodSelectorSelectedContainerColor = barColor,
-                    periodSelectorSelectedContentColor = textColor,
-                    periodSelectorUnselectedContainerColor = barColor,
-                    periodSelectorUnselectedContentColor = textColor,
                     timeSelectorSelectedContainerColor = accentColor,
                     timeSelectorUnselectedContainerColor = barColor,
-                /*
-                periodSelectorBorderColor: Color = Color.Unspecified,
-                : Color = Color.Unspecified,
-                periodSelectorUnselectedContainerColor: Color = Color.Unspecified,
-                periodSelectorSelectedContentColor: Color = Color.Unspecified,
-                periodSelectorUnselectedContentColor: Color = Color.Unspecified,
-                timeSelectorSelectedContainerColor: Color = Color.Unspecified,
-                timeSelectorUnselectedContainerColor: Color = Color.Unspecified,
-                timeSelectorSelectedContentColor: Color = Color.Unspecified,
-                timeSelectorUnselectedContentColor: Color = Color.Unspecified
-                */
+                    timeSelectorSelectedContentColor = barColor,
+                    timeSelectorUnselectedContentColor = textColor,
                 ))
             }
         )
@@ -333,17 +323,18 @@ fun AddScreenContent(
                 modifier = Modifier
                     .fillMaxWidth()
                     .menuAnchor(),
-                colors = textFieldColors(),
+                colors = textFieldColors(trailingIconColor = accentColor),
                 singleLine = true,
                 maxLines = 1
             )
             ExposedDropdownMenu(
                 expanded = categoryExpanded,
+                containerColor = lightBlack,
                 onDismissRequest = { categoryExpanded = false }
             ) {
                 ReceiptCategory.values().forEach { category ->
                     DropdownMenuItem(
-                        text = { Text(text = categoryLabel(category)) },
+                        text = { Text(text = categoryLabel(category), color = textColor) },
                         onClick = {
                             actions.onCategoryChange(category)
                             categoryExpanded = false
@@ -394,6 +385,7 @@ fun AddScreenContent(
                 location = state.location,
                 hasLocationPermission = hasLocationPermission,
                 onLocationChange = actions::onLocationChange,
+                onCameraTargetChange = { mapCameraTarget = it },
                 onMapInteractionChange = { isMapInteracting = it }
             )
         }
@@ -521,7 +513,10 @@ fun AddScreenContent(
         }
 
         Button(
-            onClick = actions::onSave,
+            onClick = {
+                mapCameraTarget?.let(actions::onLocationChange)
+                actions.onSave()
+            },
             modifier = Modifier
                 .fillMaxWidth()
                 .height(52.dp)

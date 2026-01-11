@@ -8,6 +8,7 @@ import androidx.compose.ui.graphics.Color
 val barColor = Color(0xFF000000)
 val textColor = Color(0xFFFFFFFF)
 val barButton = Color(0xFF156739)
+val lightBlack = Color(0xFF1E1F1F)
 
 val backgroundColor = Color(0xFF000000)
 val greenBackground = Color(0xFF12251A)
@@ -38,7 +39,9 @@ val selectionColors = TextSelectionColors(
 )
 
 @Composable
-fun textFieldColors() = TextFieldDefaults.colors(
+fun textFieldColors(
+    trailingIconColor: Color = textColor
+) = TextFieldDefaults.colors(
     focusedContainerColor = barColor,
     unfocusedContainerColor = barColor,
     focusedTextColor = textColor,
@@ -48,5 +51,7 @@ fun textFieldColors() = TextFieldDefaults.colors(
     cursorColor = accentColor,
     focusedLabelColor = accentColor,
     unfocusedLabelColor = accentColor,
+    focusedTrailingIconColor = trailingIconColor,
+    unfocusedTrailingIconColor = trailingIconColor,
     selectionColors = selectionColors,
 )

@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -5,6 +7,12 @@ plugins {
     alias(libs.plugins.ksp)
     alias(libs.plugins.hilt.android)
 }
+
+val properties = Properties()
+properties.load(project.rootProject.file("local.properties").reader())
+
+val apiKey = properties.getProperty("geminiApiKey")
+
 
 android {
     namespace = "com.pef.mendelu.novotnysamuel.spendradar"
@@ -29,6 +37,9 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+        }
+        debug{
+            buildConfigField(type = "String", name = "geminiApiKey", value = apiKey)
         }
     }
     compileOptions {

@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -35,6 +36,7 @@ fun MapPicker(
     location: LatLng,
     hasLocationPermission: Boolean,
     onLocationChange: (LatLng) -> Unit,
+    onCameraTargetChange: (LatLng) -> Unit,
     onMapInteractionChange: (Boolean) -> Unit
 ) {
     val cameraPositionState = rememberCameraPositionState {
@@ -49,10 +51,9 @@ fun MapPicker(
         snapshotFlow { cameraPositionState.position.target }
             .map { target -> target to cameraPositionState.isMoving }
             .distinctUntilChanged()
-            .filter { (_, isMoving) -> !isMoving }
-            .map { (target, _) -> target }
-            .collect { target ->
-                if (target != location) {
+            .collect { (target, isMoving) ->
+                onCameraTargetChange(target)
+                if (!isMoving && target != location) {
                     onLocationChange(target)
                 }
             }
@@ -87,13 +88,15 @@ fun MapPicker(
             ),
             properties = MapProperties(isMyLocationEnabled = hasLocationPermission)
         )
+        val pinSize = 36.dp
         Icon(
             imageVector = Icons.Default.LocationOn,
             contentDescription = null,
             tint = accentColor,
             modifier = Modifier
                 .align(Alignment.Center)
-                .size(36.dp)
+                .offset(y = -(pinSize / 2))
+                .size(pinSize)
         )
     }
 }

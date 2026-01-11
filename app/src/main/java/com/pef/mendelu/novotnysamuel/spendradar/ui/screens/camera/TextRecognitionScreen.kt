@@ -11,11 +11,15 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.FlashOff
+import androidx.compose.material.icons.filled.FlashOn
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.AlertDialogDefaults
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -27,6 +31,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -77,6 +82,7 @@ fun TextRecognitionScreenContent(
     val isLoading by viewModel.isLoading.collectAsStateWithLifecycle()
     val error by viewModel.error.collectAsStateWithLifecycle()
     var hasPermission by remember { mutableStateOf(false) }
+    var torchEnabled by remember { mutableStateOf(false) }
 
     val textAnalyzer = remember(viewModel) {
         TextRecognizer(
@@ -98,7 +104,8 @@ fun TextRecognitionScreenContent(
         if (hasPermission) {
             CameraComposeView(
                 paddingValues = PaddingValues(0.dp),
-                analyzer = textAnalyzer
+                analyzer = textAnalyzer,
+                torchEnabled = torchEnabled
             ) { }
         }
 
@@ -162,6 +169,38 @@ fun TextRecognitionScreenContent(
                     .size(64.dp)
                     .background(color = accentColor.copy(alpha = 0.55f), shape = CircleShape)
             ) {
+            }
+        }
+
+        if (hasPermission) {
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(top = 16.dp, end = 16.dp),
+                contentAlignment = Alignment.TopEnd
+            ) {
+                val icon: ImageVector = if (torchEnabled) {
+                    Icons.Filled.FlashOn
+                } else {
+                    Icons.Filled.FlashOff
+                }
+                IconButton(
+                    onClick = { torchEnabled = !torchEnabled },
+                    enabled = !isLoading,
+                    modifier = Modifier
+                        .size(48.dp)
+                        .background(color = barButton.copy(alpha = 0.7f), shape = CircleShape)
+                ) {
+                    Icon(
+                        imageVector = icon,
+                        contentDescription = if (torchEnabled) {
+                            stringResource(R.string.action_flash_off)
+                        } else {
+                            stringResource(R.string.action_flash_on)
+                        },
+                        tint = textColor
+                    )
+                }
             }
         }
     }

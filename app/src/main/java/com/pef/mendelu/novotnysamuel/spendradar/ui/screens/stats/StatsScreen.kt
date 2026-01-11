@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -19,6 +20,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material3.Divider
+import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.TextButton
@@ -57,11 +59,14 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.platform.testTag
+import androidx.compose.ui.res.painterResource
+import com.pef.mendelu.novotnysamuel.spendradar.testing.TestTagListFab
 import com.pef.mendelu.novotnysamuel.spendradar.testing.TestTagPlaceholderStats
 import com.pef.mendelu.novotnysamuel.spendradar.testing.TestTagStatsDay
 import com.pef.mendelu.novotnysamuel.spendradar.testing.TestTagStatsMonth
 import com.pef.mendelu.novotnysamuel.spendradar.testing.TestTagStatsWeek
 import com.pef.mendelu.novotnysamuel.spendradar.testing.TestTagStatsYear
+import com.pef.mendelu.novotnysamuel.spendradar.ui.elements.AddReceiptDialog
 
 @Composable
 fun StatsScreen(
@@ -69,6 +74,14 @@ fun StatsScreen(
 ){
     val viewModel = hiltViewModel<StatsViewModel>()
     val state by viewModel.uiState.collectAsStateWithLifecycle()
+    var showDialog by remember { mutableStateOf(false) }
+
+    if (showDialog) {
+        AddReceiptDialog(
+            onDismissRequest = { showDialog = false },
+            navigation = navigation
+        )
+    }
 
     BaseScreen(
         bottomBarContent = {
@@ -76,6 +89,23 @@ fun StatsScreen(
                 selectedDestination = Destination.StatsScreen,
                 navigation = navigation
             )
+        },
+        floatingActionButton = {
+            if (!state.isLoading && !state.hasAnyData) {
+                FloatingActionButton(onClick = {
+                    showDialog = true
+                }, containerColor = barButton, contentColor = accentColor,
+                    modifier = Modifier
+                        .offset(y = (-16).dp)
+                        .testTag(TestTagListFab)
+
+                ) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.outline_barcode_scanner),
+                        contentDescription = null
+                    )
+                }
+            }
         },
         placeholderScreenContent = if (!state.isLoading && !state.hasAnyData) {
             PlaceholderScreenContent(

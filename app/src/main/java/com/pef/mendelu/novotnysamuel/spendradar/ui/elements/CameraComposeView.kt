@@ -1,5 +1,6 @@
 package com.pef.mendelu.novotnysamuel.spendradar.ui.elements
 
+import androidx.camera.core.Camera
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageAnalysis
 import androidx.camera.core.Preview
@@ -10,6 +11,7 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -26,6 +28,7 @@ import java.util.concurrent.Executors
 fun CameraComposeView(
     paddingValues: PaddingValues,
     analyzer: ImageAnalysis.Analyzer,
+    torchEnabled: Boolean = false,
     overlay: @Composable () -> Unit
     ) {
 
@@ -47,8 +50,9 @@ fun CameraComposeView(
 // Get the current LifecycleOwner for managing lifecycle events
     val lifecycleOwner: LifecycleOwner = LocalLifecycleOwner.current
 
-// Hold a mutable state for the camera preview
+    // Hold a mutable state for the camera preview
     var preview by remember { mutableStateOf<Preview?>(null) }
+    var camera by remember { mutableStateOf<Camera?>(null) }
 
     Box(
         modifier = Modifier.fillMaxSize().padding(paddingValues),
@@ -74,7 +78,7 @@ fun CameraComposeView(
 
                         analyzerBuilder.setAnalyzer(cameraExecutor, analyzer)
 
-                        cameraProvider.bindToLifecycle(
+                        camera = cameraProvider.bindToLifecycle(
                             lifecycleOwner,
                             cameraSelector,
                             analyzerBuilder,
@@ -92,6 +96,13 @@ fun CameraComposeView(
             modifier = Modifier.fillMaxSize().padding(paddingValues),
         ) {
             overlay()
+        }
+    }
+
+    LaunchedEffect(camera, torchEnabled) {
+        val current = camera ?: return@LaunchedEffect
+        if (current.cameraInfo.hasFlashUnit()) {
+            current.cameraControl.enableTorch(torchEnabled)
         }
     }
 }
