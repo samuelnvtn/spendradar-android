@@ -40,6 +40,8 @@ uiTestJunit4 = "1.9.4"
 androidxTestCore = "1.6.1"
 androidxTestRunner = "1.6.1"
 rules = "1.7.0"
+coroutines = "1.8.1"
+robolectric = "4.12.2"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -107,6 +109,8 @@ androidx-compose-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-
 androidx-compose-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
 ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4", version.ref = "uiTestJunit4" }
 androidx-rules = { group = "androidx.test", name = "rules", version.ref = "rules" }
+kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "coroutines" }
+robolectric = { group = "org.robolectric", name = "robolectric", version.ref = "robolectric" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
