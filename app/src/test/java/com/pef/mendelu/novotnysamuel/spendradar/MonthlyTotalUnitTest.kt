@@ -16,6 +16,8 @@ import org.junit.Test
 import java.time.ZoneId
 import java.time.ZonedDateTime
 
+//pocita spravne monthly total? jen z uctenek v danem mesici?
+
 @OptIn(ExperimentalCoroutinesApi::class)
 class MonthlyTotalUnitTest {
 

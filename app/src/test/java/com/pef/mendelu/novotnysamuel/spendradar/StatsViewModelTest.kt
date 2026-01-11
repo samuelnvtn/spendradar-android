@@ -15,6 +15,8 @@ import org.junit.Test
 import java.time.ZoneId
 import java.time.ZonedDateTime
 
+//pocita spravne monthly summary pro mesicni range?
+
 @OptIn(ExperimentalCoroutinesApi::class)
 class StatsViewModelTest {
 

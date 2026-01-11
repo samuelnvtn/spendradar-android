@@ -15,6 +15,8 @@ import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import java.util.Locale
 
+//vraci defaultni jazyk z locale? a aktualizuje hodnotu po set langauge?
+
 @OptIn(ExperimentalCoroutinesApi::class)
 @RunWith(RobolectricTestRunner::class)
 class DataStoreRepositoryImplTest {

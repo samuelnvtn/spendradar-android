@@ -12,6 +12,8 @@ import org.junit.Assert.assertEquals
 import org.junit.Rule
 import org.junit.Test
 
+//aktualizuje skutecne lang?
+
 @OptIn(ExperimentalCoroutinesApi::class)
 class SettingsViewModelTest {
 
