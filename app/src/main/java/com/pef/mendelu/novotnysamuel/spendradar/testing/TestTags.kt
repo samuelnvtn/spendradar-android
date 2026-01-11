@@ -24,4 +24,6 @@ const val TestTagStatsDay = "TestTagStatsDay"
 const val TestTagStatsWeek = "TestTagStatsWeek"
 const val TestTagStatsMonth = "TestTagStatsMonth"
 const val TestTagStatsYear = "TestTagStatsYear"
-
+const val TestTagPlaceholderList = "TestTagPlaceholderList"
+const val TestTagPlaceholderStats = "TestTagPlaceholderStats"
+const val TestTagBottomNavStats = "TestTagBottomNavStats"

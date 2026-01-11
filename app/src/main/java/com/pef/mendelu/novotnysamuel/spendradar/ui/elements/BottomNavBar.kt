@@ -25,6 +25,7 @@ import com.pef.mendelu.novotnysamuel.spendradar.navigation.Destination
 import com.pef.mendelu.novotnysamuel.spendradar.navigation.INavigationRouter
 import kotlin.collections.forEach
 import com.pef.mendelu.novotnysamuel.spendradar.R
+import com.pef.mendelu.novotnysamuel.spendradar.testing.TestTagBottomNavStats
 import com.pef.mendelu.novotnysamuel.spendradar.ui.theme.barButton
 import com.pef.mendelu.novotnysamuel.spendradar.ui.theme.barColor
 import com.pef.mendelu.novotnysamuel.spendradar.ui.theme.textColor
@@ -34,7 +35,8 @@ data class BottomNavItem(
     val label: String,
     val destination: Destination,
     val icon: ImageVector? = null,
-    val iconRes: Int? = null
+    val iconRes: Int? = null,
+    val testTag: String? = null
 )
 
 @Composable
@@ -56,7 +58,8 @@ fun BottomNavBar(
         BottomNavItem(
             label = (stringResource(R.string.stats_title)),
             destination = Destination.StatsScreen,
-            iconRes = R.drawable.chart
+            iconRes = R.drawable.chart,
+            testTag = TestTagBottomNavStats
         ),
     )
 
@@ -75,6 +78,7 @@ fun BottomNavBar(
                     }
 
                 },
+                modifier = item.testTag?.let { Modifier.testTag(it) } ?: Modifier,
                 icon = {
                     if (item.icon != null) {
                         Icon(item.icon, contentDescription = item.label)

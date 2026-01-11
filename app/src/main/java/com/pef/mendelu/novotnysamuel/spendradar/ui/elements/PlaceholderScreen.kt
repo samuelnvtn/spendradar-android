@@ -14,6 +14,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.Placeholder
 import androidx.compose.ui.text.style.TextAlign
@@ -24,7 +25,8 @@ import com.pef.mendelu.novotnysamuel.spendradar.ui.theme.textColor
 
 data class PlaceholderScreenContent(
     val image: Int? = null,
-    val text: String? = null
+    val text: String? = null,
+    val testTag: String? = null
 )
 
 
@@ -33,13 +35,18 @@ fun PlaceholderScreen(
     paddingValues: PaddingValues,
     placeholderScreenContent: PlaceholderScreenContent
 ){
-    Box(modifier = Modifier.fillMaxSize()
-        .padding(
-            top = paddingValues.calculateTopPadding(),
-            start = basicMargin,
-            end = basicMargin,
-            bottom = 0.dp
-        )) {
+    val tagModifier = placeholderScreenContent.testTag?.let { Modifier.testTag(it) } ?: Modifier
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(
+                top = paddingValues.calculateTopPadding(),
+                start = basicMargin,
+                end = basicMargin,
+                bottom = 0.dp
+            )
+            .then(tagModifier)
+    ) {
         Column(
             modifier = Modifier.align(Alignment.Center),
             horizontalAlignment = Alignment.CenterHorizontally // Vycentrování obsahu sloupce

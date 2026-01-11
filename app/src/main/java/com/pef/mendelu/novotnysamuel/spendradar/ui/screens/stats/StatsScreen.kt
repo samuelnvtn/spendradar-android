@@ -57,6 +57,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.platform.testTag
+import com.pef.mendelu.novotnysamuel.spendradar.testing.TestTagPlaceholderStats
 import com.pef.mendelu.novotnysamuel.spendradar.testing.TestTagStatsDay
 import com.pef.mendelu.novotnysamuel.spendradar.testing.TestTagStatsMonth
 import com.pef.mendelu.novotnysamuel.spendradar.testing.TestTagStatsWeek
@@ -79,7 +80,8 @@ fun StatsScreen(
         placeholderScreenContent = if (!state.isLoading && !state.hasAnyData) {
             PlaceholderScreenContent(
                 image = R.drawable.undraw_graph,
-                text = stringResource(R.string.stats_empty)
+                text = stringResource(R.string.stats_empty),
+                testTag = TestTagPlaceholderStats
             )
         } else null,
         actions = {

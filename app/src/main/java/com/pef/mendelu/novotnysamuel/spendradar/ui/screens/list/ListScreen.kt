@@ -40,6 +40,7 @@ import com.pef.mendelu.novotnysamuel.spendradar.navigation.Destination
 import com.pef.mendelu.novotnysamuel.spendradar.navigation.INavigationRouter
 import com.pef.mendelu.novotnysamuel.spendradar.testing.TestTagListFab
 import com.pef.mendelu.novotnysamuel.spendradar.testing.TestTagNavToSettings
+import com.pef.mendelu.novotnysamuel.spendradar.testing.TestTagPlaceholderList
 import com.pef.mendelu.novotnysamuel.spendradar.ui.elements.AddReceiptDialog
 import com.pef.mendelu.novotnysamuel.spendradar.ui.elements.BaseScreen
 import com.pef.mendelu.novotnysamuel.spendradar.ui.elements.BottomNavBar
@@ -90,7 +91,8 @@ fun ListScreen(
         placeholderScreenContent = if (receipts.isEmpty()) {
             PlaceholderScreenContent(
                 image = R.drawable.undraw_empty_void,
-                text = (stringResource(R.string.emptylist))
+                text = (stringResource(R.string.emptylist)),
+                testTag = TestTagPlaceholderList
             )
         } else null,
 
